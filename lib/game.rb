@@ -5,7 +5,7 @@ class Game
 
   def initialize
     @mundus = Mundus.new
-    @hero = Hero.new(2, 2, @mundus.tile_size)
+    @hero = Hero.new(3, 3, @mundus.tile_size)
     refresh_camera
     setup_inputs
   end
@@ -23,16 +23,16 @@ class Game
     case key
     when 'left'  
       next_x -= 1
-      hero.play animation: :walk, loop: true, flip: :horizontal
+      @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
     when 'up'    
       next_y -= 1
-      hero.play animation: :walk, loop: true
+      @hero.sprite.play animation: :walk, loop: true
     when 'down'  
       next_y += 1
-      hero.play animation: :walk, loop: true
+      @hero.sprite.play animation: :walk, loop: true
     when 'right' 
       next_x += 1
-      hero.play animation: :walk, loop: true
+      @hero.sprite.play animation: :walk, loop: true
     end
 
     if @mundus.walkable?(next_x, next_y)
