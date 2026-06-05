@@ -1,14 +1,16 @@
+require 'csv'
+
 class Mundus
   TILE_SIZE = 40
-  VIEW_WIDTH_TILES = 10
-  VIEW_HEIGHT_TILES = 10
+  VIEW_WIDTH_TILES = 32
+  VIEW_HEIGHT_TILES = 18
 
   attr_reader :tile_size
 
   def initialize
     @tile_size = TILE_SIZE
-    raw_mundus_data = File.read('mundus.csv')
-    @grid = raw_mundus_data.strp.split('\n').map { |line| line.split(',').map(&:to_i) }
+    raw_mundus_data = File.join(File.dirname(__FILE__), '../assets/mundi/mundus.csv')
+    @grid = CSV.read(csv_path).map { |row| row.map(&:to_i) }
     @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
     end
