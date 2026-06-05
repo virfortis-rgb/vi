@@ -1,6 +1,8 @@
 require 'ruby2d'
 
 class Hero
+  attr_reader :grid_x, :grid_y
+
   def initialize(start_x, start_y, tile_size)
     @grid_x = start_x
     @grid_y = start_y

@@ -1,4 +1,4 @@
-class Map
+class Mundus
   TILE_SIZE = 40
 
   attr_reader :tile_size

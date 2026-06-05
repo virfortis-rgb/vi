@@ -1,14 +1,16 @@
+require 'ruby2d'
 require_relative './class_index'
+
 class Game
   def initialize
     @mundus = Mundus.new
-    @hero = Hero.new(1, 1, @map.tile_size)
+    @hero = Hero.new(1, 1, @mundus.tile_size)
     @mundus.draw
     setup_inputs
   end
 
   def setup_inputs
-    on :key_down do |event|
+    Ruby2D::Window.on :key_down do |event|
       next_x = @hero.grid_x
       next_y = @hero.grid_y
 
@@ -19,10 +21,7 @@ class Game
       when 'right' then next_x += 1
       end
 
-      # Ask the map instance if the destination is safe
-      if @mundus.walkable?(next_x, next_y)
-        @hero.move_to(next_x, next_y)
-      end
+      @hero.move_to(next_x, next_y) if @mundus.walkable?(next_x, next_y)
     end
   end
 end
