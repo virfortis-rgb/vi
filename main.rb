@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'ruby2d'
-require_relative 'class_index'
+require_relative './lib/class_index'
 
 set title: 'Verborum Iter',
     width: 800,
