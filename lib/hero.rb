@@ -7,11 +7,19 @@ class Hero
     @grid_x = start_x
     @grid_y = start_y
     @tile_size = tile_size
-    @sprite = Square.new(
+    @sprite = Sprite.new(
+      'assests/images/hero.png'
       x: @grid_x * @tile_size,
       y: @grid_x * @tile_size,
       size: @tile_size,
-      color: 'red'
+      clip_width: 170,
+      clip_height; 192,
+      time: 250;
+      animations: {
+        idle: 0..3,
+        walk: 6..1,
+        walk_side: 12..17
+      }
     )
   end
 
