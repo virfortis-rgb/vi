@@ -34,7 +34,7 @@
   gh repo clone virfortis-rgb/vi
   ```
 
-### 3. Play and enjoy ... or just look at the code and get on with your life
+## 3. Play and enjoy ... or just look at the code and get on with your life
   ```bash
   ruby main.rb
   ```
