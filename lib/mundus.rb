@@ -9,8 +9,9 @@ class Mundus
 
   def initialize
     @tile_size = TILE_SIZE
-    raw_mundus_data = File.join(File.dirname(__FILE__), '../assets/mundi/mundus.csv')
-    @grid = CSV.read(csv_path).map { |row| row.map(&:to_i) }
+    path = 'assets/mundi/mundus.csv'
+    raw_mundus_data = File.join(File.dirname(__FILE__), path)
+    @grid = CSV.read(path).map { |row| row.map(&:to_i) }
     @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
     end
@@ -35,9 +36,13 @@ def update_camera(player_grid_x, player_grid_y)
       sprite.x = screen_x * @tile_size
       sprite.y = screen_y * @tile_size
       # Change its color dynamically depending on what part of the world shifted into view
-      sprite.color = (tile_type == 1) ? 'gray' : 'olive'
+      case tile_type
+      when 1 then sprite.color = 'white'
+      when 2 then sprite.color = 'gray'
+      when 3 then sprite.color = 'olive'
       end
     end
+  end
 
     # Return camera offsets so Julius can update his relative viewport drawing
     [camera_x_tile, camera_y_tile]
