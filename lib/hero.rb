@@ -12,14 +12,13 @@ class Hero
       x: @grid_x * @tile_size,
       y: @grid_x * @tile_size,
       height: 48,
-      width: 42.5,
-      clip_width: 170,
-      clip_height: 192,
+      width: 40,
+      clip_width: 214,
+      clip_height: 352,
       time: 250,
       animations: {
         idle: 0..3,
-        walk: 6..1,
-        walk_side: 12..17
+        walk: 4..7,
       }
     )
   end
