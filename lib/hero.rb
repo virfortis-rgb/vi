@@ -16,11 +16,15 @@ class Hero
     )
   end
 
-  def move_to(target_x, target_y)
+  # 1. Update internal grid position
+  def update_position(target_x, target_y)
     @grid_x = target_x
     @grid_y = target_y
+  end
 
-    @sprite.x = @grid_x * @tile_size
-    @sprite.y = @grid_y * @tile_size
+  # 2. Update screen visual location relative to camera offset
+  def update_sprite_viewport(camera_x_tile, camera_y_tile)
+    @sprite.x = (@grid_x - camera_x_tile) * @tile_size
+    @sprite.y = (@grid_y - camera_y_tile) * @tile_size
   end
 end
