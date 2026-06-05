@@ -1,5 +1,5 @@
+require_relative './class_index'
 class Game
-
   def initialize
     @mundus = Mundus.new
     @hero = Hero.new(1, 1, @map.tile_size)
