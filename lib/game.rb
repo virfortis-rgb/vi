@@ -29,7 +29,7 @@ class Game
 
     if @mundus.walkable?(next_x, next_y)
       @hero.update_position(next_x, next_y)
-      refresh_camera # Redraw map and player based on new coordinates!
+      refresh_camera
     end
   end
 
