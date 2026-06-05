@@ -1,1 +1,5 @@
 require_relative './game'
+require_relative './hero'
+require_relative './mundus'
+require_relative './libellum'
+require_relative './orbs'
