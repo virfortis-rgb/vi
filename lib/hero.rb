@@ -10,6 +10,7 @@ class Hero
     @sprite = Square.new(
       x: @grid_x * @tile_size,
       y: @grid_x * @tile_size,
+      z: 100,
       size: @tile_size,
       color: 'red'
     )
