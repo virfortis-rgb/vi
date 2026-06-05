@@ -9,4 +9,6 @@ set title: 'Verborum Iter',
     resizable: false,
     background: 'white'
 
+Game.new
+
 show
