@@ -1,7 +1,7 @@
 # Verborum Iter
 #### A simple open-world game built using Ruby 2D
 
-## Setup and Dependencies
+## 1. Setup and Dependencies
 1. Ruby
   Check ruby version:
   ```bash
@@ -29,12 +29,12 @@
   ```bash
   gem install ruby2d
   ```
-## Clone the repo:
+## 2. Clone the repo:
   ```bash
   gh repo clone virfortis-rgb/vi
   ```
 
-### Play and enjoy ... or just look at the code and get on with your life
+### 3. Play and enjoy ... or just look at the code and get on with your life
   ```bash
   ruby main.rb
   ```
