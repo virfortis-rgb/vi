@@ -7,71 +7,37 @@ class Mundus
 
   def initialize
     @tile_size = TILE_SIZE
-
-    # 0 = Walkable street, 1 = Stone wall / Building
-    @grid = [
-      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-      [1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,1,1,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,1],
-      [1,0,1,1,0,0,0,0,0,1,0,0,0,1,0,0,1,1,0,1],
-      [1,0,0,0,0,0,0,1,1,1,0,0,0,1,0,0,1,1,0,1],
-      [1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1],
-      [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,1],
-      [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1],
-      [1,0,1,1,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,1],
-      [1,0,1,0,0,1,0,0,0,1,0,1,1,1,0,0,1,0,0,1],
-      [1,0,1,0,0,1,0,0,0,1,0,1,0,1,0,0,1,0,0,1],
-      [1,0,1,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
-      [1,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0,0,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
-      [1,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,1],
-      [1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-    ]
-    @rendered_tiles = []
+    raw_mundus_data = File.read('mundus.csv')
+    @grid = raw_mundus_data.strp.split('\n').map { |line| line.split(',').map(&:to_i) }
+    @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
+      Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
+    end
   end
 
-  # Loops through the matrix to render the visual blocks of the world
-  def draw
-    @grid.each_with_index do |row, y|
-      @rendered_tiles[y] = []
-      row.each_with_index do |tile_type, x|
-        color = (tile_type == 1) ? 'gray' : 'olive'
+def update_camera(player_grid_x, player_grid_y)
+  # 1. Figure out where the top-left corner of the camera should be in world coordinates
+  camera_x_tile = (player_grid_x - (VIEW_WIDTH_TILES / 2)).clamp(0, @grid[0].size - VIEW_WIDTH_TILES)
+  camera_y_tile = (player_grid_y - (VIEW_HEIGHT_TILES / 2)).clamp(0, @grid.size - VIEW_HEIGHT_TILES)
 
-        # We temporarily place them anywhere; 'update_camera' will slide them to the right spot
-        @rendered_tiles[y][x] = Square.new(
-          size: @tile_size - (tile_type == 1 ? 0 : 1),
-          color: color
-        )
+  # 2. Loop ONLY through the size of the screen (10 iterations x 10 iterations = 100 total checks)
+  VIEW_HEIGHT_TILES.times do |screen_y|
+    VIEW_WIDTH_TILES.times do |screen_x|
+      # Match screen position to the corresponding actual world data position
+      world_x = camera_x_tile + screen_x
+      world_y = camera_y_tile + screen_y
+      tile_type = @grid[world_y][world_x]
+
+      # Fetch our recycled sprite from the pool
+      sprite = @sprites_pool[screen_y][screen_x]
+      # Re-position it on screen
+      sprite.x = screen_x * @tile_size
+      sprite.y = screen_y * @tile_size
+      # Change its color dynamically depending on what part of the world shifted into view
+      sprite.color = (tile_type == 1) ? 'gray' : 'olive'
       end
     end
 
-  # Crucial Method: Adjusts where the squares are drawn based on hero's position
-  def update_camera(player_grid_x, player_grid_y)
-    # Calculate the camera offset (where the top-left corner of the screen is in world coordinates)
-    # We subtract half the screen view width to keep the hero centered
-    camera_x_tile = player_grid_x - (VIEW_WIDTH_TILES / 2)
-    camera_y_tile = player_grid_y - (VIEW_HEIGHT_TILES / 2)
-
-    # Optional: Clamp camera edges so it stops panning when hitting world boundaries
-    camera_x_tile = camera_x_tile.clamp(0, @grid[0].size - VIEW_WIDTH_TILES)
-    camera_y_tile = camera_y_tile.clamp(0, @grid.size - VIEW_HEIGHT_TILES)
-
-    # Shift every single tile image based on the calculated camera offset
-    @grid.each_with_index do |row, y|
-      row.each_with_index do |_, x|
-        tile_shape = @rendered_tiles[y][x]
-
-        # New Position = (Your Map Position - Camera Offset) * Tile Size
-        tile_shape.x = (x - camera_x_tile) * @tile_size
-        tile_shape.y = (y - camera_y_tile) * @tile_size
-      end
-    end
-
-    # Return the camera offsets so the Hero class can use them to position the hero
+    # Return camera offsets so Julius can update his relative viewport drawing
     [camera_x_tile, camera_y_tile]
   end
 

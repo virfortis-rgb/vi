@@ -4,8 +4,8 @@ require 'ruby2d'
 require_relative './lib/class_index'
 
 set title: 'Verborum Iter',
-    width: 800,
-    height: 510,
+    width: 1280,
+    height: 720,
     resizable: false,
     fullscreen: true,
     diagnostics: true,

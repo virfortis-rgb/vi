@@ -2,18 +2,16 @@ require 'ruby2d'
 require_relative './class_index'
 
 class Game
-  include Ruby2D
 
   def initialize
     @mundus = Mundus.new
     @hero = Hero.new(2, 2, @mundus.tile_size)
-    @mundus.draw
     refresh_camera
     setup_inputs
   end
 
   def setup_inputs
-    on :key do |event|
+    Ruby2D::Window.on :key_down do |event|
       handle_movement(event.key)
     end
   end
