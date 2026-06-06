@@ -29,6 +29,8 @@ class Game
   def initialize
     @mundus = Mundus.new
     @hero = Hero.new(3, 3, @mundus.tile_size)
+    @ui = UI.new
+    @state = :exploring
     @orbes = []
     spawn_initial_orbes
     refresh_camera
@@ -43,7 +45,12 @@ class Game
 
   def setup_inputs
     Ruby2D::Window.on :key_down do |event|
-      handle_movement(event.key)
+      case @state
+      when :exploring
+        handle_movement(event.key)
+      when :dialogue
+        handle_dialogue_input(event.key)
+      end
     end
   end
 
@@ -65,16 +72,22 @@ class Game
     end
   end
 
+
+  def handle_dialogue_input(key)
+    if key == 'space'
+      @ui.hide_dialogue
+      @state = :exploring # Release pause block, resume journey
+    end
+  end
+
   def check_orb_collisions
     @orbes.each do |orbs|
       next if orbs.visa
 
       if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
         orbs.visa = true
-        puts "--------------------------------------------------"
-        puts "✨ ORBS VISA! ✨"
-        puts "Latin: #{orbs.verbum}"
-          puts "--------------------------------------------------"
+        @state = :dialogue
+        @ui.show_dialogue(orbs.verbum)
       end
     end
   end
