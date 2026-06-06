@@ -28,7 +28,7 @@ class Game
 
   def initialize
     @mundus = Mundus.new
-    @hero = Hero.new(2, 2, @mundus.tile_size)
+    @hero = Hero.new(3, 3, @mundus.tile_size)
     @orbes = []
     spawn_initial_orbes
     refresh_camera
@@ -66,16 +66,15 @@ class Game
   end
 
   def check_orb_collisions
-    @orbes.each do |orb|
-      next if orb.visa
+    @orbes.each do |orbs|
+      next if orbs.visa
 
-      if @hero.grid_x == orb.grid_x && @hero.grid_y == orb.grid_y
-        orb.visa = true
-
+      if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
+        orbs.visa = true
         puts "--------------------------------------------------"
         puts "✨ ORBS VISA! ✨"
-        puts "Latin: #{orb.verbum}"
-        puts "--------------------------------------------------"
+        puts "Latin: #{orbs.verbum}"
+          puts "--------------------------------------------------"
       end
     end
   end
