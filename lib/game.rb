@@ -37,7 +37,7 @@ class Game
 
   def spawn_initial_orbes
     INDEX_VERBORUM.each do |v|
-      @orbes << Orbs.new(v[:x], v[:y], v[:verbum], @mundus.tile_size)
+      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum])
     end
   end
 
@@ -67,15 +67,14 @@ class Game
 
   def check_orb_collisions
     @orbes.each do |orb|
-      next if orb.collected
+      next if orb.visa
 
       if @hero.grid_x == orb.grid_x && @hero.grid_y == orb.grid_y
         orb.visa = true
 
         puts "--------------------------------------------------"
-        puts "✨ ORB COLLECTED! ✨"
-        puts "Latin: #{orb.latin.upcase}"
-        puts "English Translation: #{orb.english}"
+        puts "✨ ORBS VISA! ✨"
+        puts "Latin: #{orb.verbum}"
         puts "--------------------------------------------------"
       end
     end

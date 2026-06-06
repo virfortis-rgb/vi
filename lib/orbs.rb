@@ -2,6 +2,9 @@ require 'ruby2d'
 
 class Orbs
 
+  attr_reader :grid_x, :grid_y, :verbum
+  attr_accessor :visa
+
   def initialize(grid_x, grid_y, tile_size, verbum)
     @grid_x = grid_x
     @grid_y = grid_y
@@ -17,7 +20,10 @@ class Orbs
   end
 
   def update_sprite_viewport(camera_x_tile, camera_y_tile)
-    @orbs_simplex.remove if @collected
+    if @visa
+      @orbs_simplex.remove
+      return
+    end
 
     screen_x = (@grid_x - camera_x_tile) * @tile_size
     screen_y = (@grid_y - camera_y_tile) * @tile_size
