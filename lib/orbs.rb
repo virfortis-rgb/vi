@@ -36,5 +36,4 @@ class Orbs
       @orbs_simplex.remove
     end
   end
-
 end

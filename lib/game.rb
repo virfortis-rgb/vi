@@ -13,13 +13,13 @@ INDEX_VERBORUM = [
     verbum: 'verum'
   },
   {
-    x: 2,
-    y: 12,
+    x: 3,
+    y: 15,
     verbum: 'et'
   },
   {
-    x: 25,
-    y: 15,
+    x: 23,
+    y: 21,
     verbum: 'arma'
   },
 ]
@@ -35,6 +35,7 @@ class Game
     spawn_initial_orbes
     refresh_camera
     setup_inputs
+    @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
   end
 
   def spawn_initial_orbes
@@ -86,6 +87,8 @@ class Game
 
       if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
         orbs.visa = true
+        @hero.sacchus << orbs
+         @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
         @state = :dialogue
         @ui.show_dialogue(orbs.verbum)
       end

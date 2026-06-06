@@ -1,4 +1,5 @@
 require 'ruby2d'
+require_relative './class_index'
 
 class UI
   def initialize
@@ -10,6 +11,7 @@ class UI
     )
     @text = Text.new("", x: 280, y: 525, size: 28, color: 'yellow', z: 101)
     @prompt = Text.new("[Press SPACE to continue]", x: 280, y: 575, size: 14, color: 'white', z: 101)
+    @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
     hide_dialogue
   end
 
@@ -24,5 +26,9 @@ class UI
     @text_box.remove
     @text.remove
     @prompt.remove
+  end
+
+  def sacchus_monstratur(text)
+    @hud.text = text
   end
 end
