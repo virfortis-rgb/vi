@@ -51,6 +51,8 @@ class Game
         handle_movement(event.key)
       when :dialogue
         handle_dialogue_input(event.key)
+      when :literature
+        handle_literature_input(event.keu)
       end
     end
   end
@@ -81,6 +83,12 @@ class Game
     end
   end
 
+  def handle_literature_input(key)
+    if key == 'space'
+      @ui.hide_libellum
+      @state = :exploring
+  end
+
   def check_orb_collisions
     @orbes.each do |orbs|
       next if orbs.visa
@@ -88,10 +96,25 @@ class Game
       if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
         orbs.visa = true
         @hero.sacchus << orbs
-         @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
+        @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
         @state = :dialogue
         @ui.show_dialogue(orbs.verbum)
       end
+    end
+
+    # spawn libellum
+    if @hero.sacchus.size == @orbes.size && @ @libellum.nil?
+      @libellum = Libellum.new(30, 20, @mundus.tile_size, "Vergelii Aeneas", "Arma virumque canō")
+      puts "A sacred scroll has appeared in the city!"
+    end
+  end
+
+  def check_libellum_collisions
+    next if @libellum.vium
+    if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
+      @libellum.visum = true
+      @state = :literature
+      @ui.libellum_monstratur
     end
   end
 
