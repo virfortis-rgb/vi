@@ -1,18 +1,56 @@
 require 'ruby2d'
 require_relative './class_index'
 
+INDEX_VERBORUM = [
+  {
+    x: 5,
+    y: 3,
+    verbum: 'cano'
+  },
+  {
+    x: 12,
+    y: 5,
+    verbum: 'verum'
+  },
+  {
+    x: 2,
+    y: 12,
+    verbum: 'et'
+  },
+  {
+    x: 25,
+    y: 15,
+    verbum: 'arma'
+  },
+]
+
 class Game
 
   def initialize
     @mundus = Mundus.new
-    @hero = Hero.new(2, 2, @mundus.tile_size)
+    @hero = Hero.new(3, 3, @mundus.tile_size)
+    @ui = UI.new
+    @state = :exploring
+    @orbes = []
+    spawn_initial_orbes
     refresh_camera
     setup_inputs
   end
 
+  def spawn_initial_orbes
+    INDEX_VERBORUM.each do |v|
+      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum])
+    end
+  end
+
   def setup_inputs
     Ruby2D::Window.on :key_down do |event|
-      handle_movement(event.key)
+      case @state
+      when :exploring
+        handle_movement(event.key)
+      when :dialogue
+        handle_dialogue_input(event.key)
+      end
     end
   end
 
@@ -29,7 +67,28 @@ class Game
 
     if @mundus.walkable?(next_x, next_y)
       @hero.update_position(next_x, next_y)
+      check_orb_collisions
       refresh_camera
+    end
+  end
+
+
+  def handle_dialogue_input(key)
+    if key == 'space'
+      @ui.hide_dialogue
+      @state = :exploring # Release pause block, resume journey
+    end
+  end
+
+  def check_orb_collisions
+    @orbes.each do |orbs|
+      next if orbs.visa
+
+      if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
+        orbs.visa = true
+        @state = :dialogue
+        @ui.show_dialogue(orbs.verbum)
+      end
     end
   end
 
@@ -39,5 +98,8 @@ class Game
 
     # 2. Tell the hero to draw himself relative to those camera coordinates
     @hero.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
+    @orbes.each do |orb|
+      orb.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
+    end
   end
 end
