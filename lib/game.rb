@@ -71,15 +71,15 @@ class Game
     if @mundus.walkable?(next_x, next_y)
       @hero.update_position(next_x, next_y)
       check_orb_collisions
+      check_libellum_collisions if @libellum
       refresh_camera
     end
   end
 
-
   def handle_dialogue_input(key)
     if key == 'space'
       @ui.hide_dialogue
-      @state = :exploring # Release pause block, resume journey
+      @state = :exploring
     end
   end
 
@@ -87,6 +87,7 @@ class Game
     if key == 'space'
       @ui.hide_libellum
       @state = :exploring
+    end
   end
 
   def check_orb_collisions
@@ -103,18 +104,19 @@ class Game
     end
 
     # spawn libellum
-    if @hero.sacchus.size == @orbes.size && @ @libellum.nil?
-      @libellum = Libellum.new(30, 20, @mundus.tile_size, "Vergelii Aeneas", "Arma virumque canō")
+    if @hero.sacchus.size == @orbes.size && @libellum.nil?
+      @libellum = Libellum.new(29, 20, @mundus.tile_size, "Vergelii Aeneas", "Arma virumque canō")
       puts "A sacred scroll has appeared in the city!"
     end
   end
 
   def check_libellum_collisions
-    next if @libellum.vium
-    if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
-      @libellum.visum = true
-      @state = :literature
-      @ui.libellum_monstratur
+    if @libellum.visum
+      if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
+        @libellum.visum = true
+        @state = :literature
+        @ui.libellum_monstratur(@libellum.title, @libellum.text)
+      end
     end
   end
 
@@ -126,6 +128,9 @@ class Game
     @hero.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
     @orbes.each do |orb|
       orb.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
+    end
+    if @libellum
+      @libellum.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
     end
   end
 end

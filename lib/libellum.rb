@@ -2,6 +2,8 @@ require 'ruby2d'
 
 class Libellum
 
+  attr_reader :title, :text, :visum
+
   def initialize(grid_x, grid_y, tile_size, title, text)
     @grid_x = grid_x
     @grid_y = grid_y
@@ -11,14 +13,14 @@ class Libellum
     @visum = false
 
     @libellum = Circle.new(
-        @tile_size / 3
+        radius: @tile_size / 3,
         color: 'maroon',
         z: 100
     )
   end
 
   def update_sprite_viewport(camera_x_tile, camera_y_tile)
-    if @libellum.visum
+    if @visum
       @libellum.remove
       return
     end
