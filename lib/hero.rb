@@ -1,12 +1,13 @@
 require 'ruby2d'
 
 class Hero
-  attr_reader :grid_x, :grid_y
+  attr_reader :grid_x, :grid_y, :sacchus
 
   def initialize(start_x, start_y, tile_size)
     @grid_x = start_x
     @grid_y = start_y
     @tile_size = tile_size
+    @sacchus = []
     @sprite = Square.new(
       x: @grid_x * @tile_size,
       y: @grid_x * @tile_size,
