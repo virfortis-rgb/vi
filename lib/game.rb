@@ -52,7 +52,7 @@ class Game
       when :dialogue
         handle_dialogue_input(event.key)
       when :literature
-        handle_literature_input(event.keu)
+        handle_literature_input(event.key)
       end
     end
   end
@@ -111,12 +111,10 @@ class Game
   end
 
   def check_libellum_collisions
-    if @libellum.visum
-      if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
-        @libellum.visum = true
-        @state = :literature
-        @ui.libellum_monstratur(@libellum.title, @libellum.text)
-      end
+    if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
+      @libellum.visum = true
+      @state = :literature
+      @ui.libellum_monstratur(@libellum.title, @libellum.text)
     end
   end
 

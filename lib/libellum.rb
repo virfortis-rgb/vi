@@ -2,7 +2,8 @@ require 'ruby2d'
 
 class Libellum
 
-  attr_reader :title, :text, :visum
+  attr_reader :grid_x, :grid_y,:title, :text
+  attr_accessor :visum
 
   def initialize(grid_x, grid_y, tile_size, title, text)
     @grid_x = grid_x
