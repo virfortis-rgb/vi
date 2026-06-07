@@ -27,8 +27,8 @@ INDEX_VERBORUM = [
 class Game
 
   def initialize
-    @mundus = Mundus.new
-    @hero = Hero.new(3, 3, @mundus.tile_size)
+    @mundus = Mundus.new('assets/mundi/mundus.csv')
+    @hero = Hero.new(3, 3, @mundus.tile_size) # because worlds change should I hard code tile_size?
     @ui = UI.new
     @state = :exploring
     @orbes = []
@@ -40,7 +40,7 @@ class Game
 
   def spawn_initial_orbes
     INDEX_VERBORUM.each do |v|
-      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum])
+      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum]) # tile_size??
     end
   end
 
@@ -68,7 +68,7 @@ class Game
     when 'right' then next_x += 1
     end
 
-    if @mundus.walkable?(next_x, next_y)
+    if @mundus.walkable?(next_x, next_y) # how to refactor??
       @hero.update_position(next_x, next_y)
       check_orb_collisions
       check_libellum_collisions if @libellum
@@ -115,7 +115,16 @@ class Game
       @libellum.visum = true
       @state = :literature
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
+      # unlock new level
+      fac_mundum
     end
+  end
+
+  def fac_mundum
+    # open new path to mundus
+    @mundus.via_nova(0, 7)
+    # generate new munuds
+    @mundus_secundus = Mundus.new('assets/mundi/mundus_secundus.csv')
   end
 
   def refresh_camera
