@@ -8,10 +8,9 @@
   ruby --version
   ```
 
-  If no, install ruby:
+  If no, install ruby (or whatever the machine you use requires):
   ```bash
   sudo apt-get install ruby-full
-  # or whatever the machine you use requires
   ```
 
 2. Ruby 2D dependencies/packages (only Linux)
@@ -19,7 +18,7 @@
   ```bash
   sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
   ```
-  CentOS and Fedora:
+  Fedora:
   ```bash
   sudo yum install SDL2-devel SDL2_image-devel SDL2_mixer-devel SDL2_ttf-devel
   ```
