@@ -62,10 +62,18 @@ class Game
     next_y = @hero.grid_y
 
     case key
-    when 'left'  then next_x -= 1
-    when 'up'    then next_y -= 1
-    when 'down'  then next_y += 1
-    when 'right' then next_x += 1
+    when 'left'
+      next_x -= 1
+      @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
+    when 'up'
+      next_y -= 1
+      @hero.sprite.play animation: :walk, loop: true
+    when 'down'
+      next_y += 1
+      @hero.sprite.play animation: :walk, loop: true
+    when 'right'
+      next_x += 1
+      @hero.sprite.play animation: :walk, loop: true
     end
 
     if @mundus.walkable?(next_x, next_y)
