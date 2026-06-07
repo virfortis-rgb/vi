@@ -9,17 +9,16 @@ class Hero
     @tile_size = tile_size
     @sacchus = []
     @sprite = Sprite.new(
-      'assets/images/hero.png',
+      'assets/images/duck.png',
       x: @grid_x * @tile_size,
       y: @grid_x * @tile_size,
-      height: 48,
+      height: 40,
       width: 40,
-      clip_width: 214,
-      clip_height: 352,
+      clip_width: 128,
+      clip_height: 128,
       time: 250,
       animations: {
-        idle: 0..3,
-        walk: 4..7,
+        walk: 0..1
       }
     )
   end
