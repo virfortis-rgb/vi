@@ -7,6 +7,7 @@ class Hero
     @grid_x = start_x
     @grid_y = start_y
     @tile_size = tile_size
+    @sacchus = []
     @sprite = Sprite.new(
       'assets/images/hero.png',
       x: @grid_x * @tile_size,
