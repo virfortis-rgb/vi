@@ -52,7 +52,7 @@ class Game
       when :dialogue
         handle_dialogue_input(event.key)
       when :literature
-        handle_literature_input(event.keu)
+        handle_literature_input(event.key)
       end
     end
   end
@@ -62,10 +62,18 @@ class Game
     next_y = @hero.grid_y
 
     case key
-    when 'left'  then next_x -= 1
-    when 'up'    then next_y -= 1
-    when 'down'  then next_y += 1
-    when 'right' then next_x += 1
+    when 'left'
+      next_x -= 1
+      @hero.sprite.play animation: :walk, loop: true
+    when 'up'
+      next_y -= 1
+      @hero.sprite.play animation: :walk, loop: true
+    when 'down'
+      next_y += 1
+      @hero.sprite.play animation: :walk, loop: true
+    when 'right'
+      next_x += 1
+      @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
     end
 
     if @mundus.walkable?(next_x, next_y)
@@ -111,12 +119,10 @@ class Game
   end
 
   def check_libellum_collisions
-    if @libellum.visum
-      if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
-        @libellum.visum = true
-        @state = :literature
-        @ui.libellum_monstratur(@libellum.title, @libellum.text)
-      end
+    if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
+      @libellum.visum = true
+      @state = :literature
+      @ui.libellum_monstratur(@libellum.title, @libellum.text)
     end
   end
 

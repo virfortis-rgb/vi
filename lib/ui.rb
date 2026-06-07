@@ -18,8 +18,8 @@ class UI
       color: [0.1, 0.1, 0.1, 0.95], # Near-black with subtle transparency
       z: 100 # Force it to float directly on top of everything
     )
-    @libellum_title = Text.new("", x: 280, y: 515, size: 34, color: 'yellow', z: 101)
-    @libellum_text = Text.new("", x: 280, y: 525, size: 28, color: 'yellow', z: 101)
+    @libellum_title = Text.new("", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
+    @libellum_text = Text.new("", x: 280, y: 400, size: 28, color: 'white', z: 101)
     hide_libellum
   end
 
@@ -41,8 +41,8 @@ class UI
   end
 
   def libellum_monstratur(title, text)
-    @libellum_title = title
-    @libellum_text = text
+    @libellum_title.text = title
+    @libellum_text.text = text
     @libellum_box.add
     @libellum_title.add
     @libellum_text.add
