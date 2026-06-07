@@ -116,11 +116,11 @@ class Game
       @state = :literature
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
       # unlock new level
-      fac_mundum
+      fac_mundum_novum
     end
   end
 
-  def fac_mundum
+  def fac_mundum_novum
     # open new path to mundus
     @mundus.via_nova(0, 7)
     # generate new munuds
