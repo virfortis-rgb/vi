@@ -41,7 +41,8 @@ class Game
 
   def spawn_orbes(level)
     @data[:orbes].each do |o|
-      @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
+      @orbes << orbs = Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
+      orbs.sprite.play animation: :bob, loop: true
     end
     puts 'New Orbes Spawned!'
   end
