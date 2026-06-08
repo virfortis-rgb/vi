@@ -1,24 +1,24 @@
 require 'ruby2d'
 
 class Hero
-  attr_reader :grid_x, :grid_y, :sprite
+  attr_reader :grid_x, :grid_y, :sacchus, :sprite
 
   def initialize(start_x, start_y, tile_size)
     @grid_x = start_x
     @grid_y = start_y
     @tile_size = tile_size
+    @sacchus = []
     @sprite = Sprite.new(
-      'assets/images/hero.png',
+      'assets/images/duck.png',
       x: @grid_x * @tile_size,
       y: @grid_x * @tile_size,
-      height: 48,
+      height: 40,
       width: 40,
-      clip_width: 214,
-      clip_height: 352,
+      clip_width: 128,
+      clip_height: 128,
       time: 250,
       animations: {
-        idle: 0..3,
-        walk: 4..7,
+        walk: 0..1
       }
     )
   end
