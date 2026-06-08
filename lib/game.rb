@@ -74,7 +74,8 @@ class Game
       next_x += 1
       @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
     end
-    puts "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}" + "\r"
+    print "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}" + "\r"
+    $stdout.flush 
 
     if @mundus.walkable?(next_x, next_y) # how to refactor??
       @hero.update_position(next_x, next_y)
