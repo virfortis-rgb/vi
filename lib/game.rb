@@ -121,6 +121,7 @@ class Game
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
+      @libellum.sprite.play animation: :bob, loop: true
       puts "A sacred scroll has appeared in the city!"
     end
   end

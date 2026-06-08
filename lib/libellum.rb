@@ -2,7 +2,7 @@ require 'ruby2d'
 
 class Libellum
 
-  attr_reader :grid_x, :grid_y,:title, :text
+  attr_reader :grid_x, :grid_y,:title, :text, :sprite
   attr_accessor :visum
 
   def initialize(grid_x, grid_y, tile_size, title, text)
@@ -13,16 +13,22 @@ class Libellum
     @text = text
     @visum = false
 
-    @libellum = Circle.new(
-        radius: @tile_size / 3,
-        color: 'maroon',
-        z: 100
+    @sprite = Sprite.new(
+      'assets/images/scroll.png',
+      height: 32,
+      width: 32,
+      clip_width: 96,
+      clip_height: 96,
+      time: 250,
+      animations: {
+        bob: 0..3
+      }
     )
   end
 
   def update_sprite_viewport(camera_x_tile, camera_y_tile)
     if @visum
-      @libellum.remove
+      @sprite.remove
       return
     end
 
@@ -30,15 +36,15 @@ class Libellum
     screen_y = (@grid_y - camera_y_tile) * @tile_size
 
     if screen_x >= 0 && screen_x < 1280 && screen_y >= 0 && screen_y < 720
-      @libellum.x = screen_x + (@tile_size / 2)
-      @libellum.y = screen_y + (@tile_size / 2)
-      @libellum.add
+      @sprite.x = screen_x + (@tile_size / 2)
+      @sprite.y = screen_y + (@tile_size / 2)
+      @sprite.add
     else
-      @libellum.remove
+      @sprite.remove
     end
   end
 
   def remove_from_world
-    @libellum.remove
+    @sprite.remove
   end
 end
