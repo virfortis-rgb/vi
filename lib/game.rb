@@ -41,7 +41,7 @@ class Game
 
   def spawn_orbes(level)
     @data[:orbes].each do |o|
-      @orbes << Orbs.new(o[:x], v[:y], @mundus.tile_size, o[:verbum])
+      @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
     end
     puts 'New Orbes Spawned!'
   end
@@ -74,7 +74,7 @@ class Game
       next_x += 1
       @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
     end
-    puts "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}"
+    puts "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}" + "\r"
 
     if @mundus.walkable?(next_x, next_y) # how to refactor??
       @hero.update_position(next_x, next_y)
@@ -89,6 +89,7 @@ class Game
     if key == 'space'
       @ui.hide_dialogue
       @state = :exploring
+      # check_for_libellum_spawn if @libellum.nil? && !@gate_opened
     end
   end
 
@@ -122,32 +123,44 @@ class Game
     end
   end
 
+  # def check_for_libellum_spawn
+  # end
+
   def check_libellum_collisions
+    return if @libellum.nil?
+
     if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
       @libellum.visum = true
       @state = :literature
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
-      # account for seen libella
-      fac_mundum_novum
+      @libellum.remove_from_world
+      @libellum = nil
+      viam_novam_apertitur
     end
   end
 
-  def fac_mundum_novum
+  def viam_novam_apertitur
     @gate = LevelData::LEVELS[@current_level][:exit_gate]
     @camera.via_nova(@gate[:x], @gate[:y])
+    @gate_opened = true
+    puts "New Gate opened!"
     puts "Level: #{@current_level}"
     puts "Exit gate: #{@gate}"
+  end
+
+  def check_for_new_level
+    return unless @gate_opened
+
     if @hero.grid_x == @gate[:x] && @hero.grid_y == @gate[:y]
-      @current_level += 1
-      puts "Level up to level #{@current_level}!"
-      load_mundum
+    @current_level += 1
+    puts "Level up to level #{@current_level}!"
+    load_mundum(@current_level)
     end
   end
 
   def refresh_camera
     # 1. Tell mundus to shift its tiles around the hero, and get back the map's camera coordinates
     camera_offsets = @camera.update(@hero.grid_x, @hero.grid_y)
-
     # 2. Tell the hero to draw himself relative to those camera coordinates
     @hero.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
     @orbes.each do |orb|

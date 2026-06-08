@@ -6,8 +6,8 @@ class Camera
   def initialize(grid, csv_path)
     @grid = grid
     @csv_path =  csv_path
+    @tile_size = TILE_SIZE
     @tiles_pool = Array.new(VIEW_HEIGHT_TILES) do
-      @tile_size = TILE_SIZE
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
     end
   end
@@ -62,7 +62,9 @@ class Camera
   end
 
   def clear_tiles
-    @tiles_pool.each_value(&:remove)
+    @tiles_pool.each do |tile| 
+      tile.each { |t| t.remove }
+    end
     @tiles_pool.clear
   end
 end
