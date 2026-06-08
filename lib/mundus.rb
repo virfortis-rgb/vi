@@ -50,7 +50,6 @@ def update_camera(player_grid_x, player_grid_y)
       end
     end
   end
-
     # Return camera offsets so Julius can update his relative viewport drawing
     [camera_x_tile, camera_y_tile]
   end
@@ -69,6 +68,7 @@ def update_camera(player_grid_x, player_grid_y)
     # Ensure the hero isn't moving out of map array bounds
     return false if y < 0 || y >= @grid.size
     return false if x < 0 || x >= @grid[0].size
-    @grid[y][x] == 0
+    @grid[y][x] == 1 || @grid[y][x] == 2 || @grid[y][x] == 3
+    # walkable: 1, 2, 3
   end
 end
