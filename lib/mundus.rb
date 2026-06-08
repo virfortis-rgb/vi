@@ -7,9 +7,9 @@ class Mundus
 
   attr_reader :tile_size, :grid
 
-  def initialize(csv_path)
+  def initialize(level)
     @tile_size = TILE_SIZE
-    @csv_path = csv_path
+    @csv_path = 'assets/mundi/mundus_#{level}.csv'
     #raw_mundus_data = File.join(File.dirname(__FILE__), @csv_path)
     @grid = CSV.read(@csv_path).map { |row| row.map(&:to_i) }
   end

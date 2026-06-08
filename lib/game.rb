@@ -27,7 +27,7 @@ INDEX_VERBORUM = [
 class Game
 
   def initialize
-    @mundus = Mundus.new('assets/mundi/mundus.csv')
+    @mundus = Mundus.new(1)
     @camera = Camera.new(@mundus.grid)
     @hero = Hero.new(3, 3, @mundus.tile_size) # because worlds change should I hard code tile_size?
     @ui = UI.new
