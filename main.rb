@@ -7,7 +7,7 @@ set title: 'Verborum Iter',
     width: 1280,
     height: 720,
     resizable: false,
-    # fullscreen: true,
+    # ullscreen: true,
     diagnostics: true,
     background: '#6f824f'
 
