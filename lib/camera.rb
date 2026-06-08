@@ -6,7 +6,7 @@ class Camera
   def initialize(grid, csv_path)
     @grid = grid
     @csv_path =  csv_path
-    @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
+    @tiles_pool = Array.new(VIEW_HEIGHT_TILES) do
       @tile_size = TILE_SIZE
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
     end
@@ -26,7 +26,7 @@ class Camera
         tile_type = @grid[world_y][world_x]
 
         # Fetch our recycled sprite from the pool
-        sprite = @sprites_pool[screen_y][screen_x]
+        sprite = @tiles_pool[screen_y][screen_x]
         # Re-position it on screen
         sprite.x = screen_x * @tile_size
         sprite.y = screen_y * @tile_size
@@ -51,11 +51,18 @@ class Camera
 
 
   def via_nova(x, y)
+    # is this necessary?
+    # if y >= 0 && y < @grid.length && x >= 0 && x < @grid[0].length
     @grid[y][x] = 1 # change to walkable path
-    CSV.open(@csv_path, 'wb') do |csv|
-      @grid.each do |row|
-        csv << row
-      end
-    end
+    # CSV.open(@csv_path, 'wb') do |csv|
+    #   @grid.each do |row|
+    #     csv << row
+    #   end
+    # end
+  end
+
+  def clear_tiles
+    @tiles_pool.each_value(&:remove)
+    @tiles_pool.clear
   end
 end

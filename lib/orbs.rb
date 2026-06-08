@@ -36,4 +36,8 @@ class Orbs
       @orbs_simplex.remove
     end
   end
+
+  def remove_from_world
+    @orbs_simplex.remove
+  end
 end

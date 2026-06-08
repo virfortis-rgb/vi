@@ -7,7 +7,7 @@ module LevelData
         { x: 3, y: 15, verbum: 'et' },
         { x: 23, y: 21, verbum: 'arma' },
       ],
-      libellum: {},
+      libellum: {x: 29, y: 20, title: "Vergelii Aeneas", text: "Arma virumque canō"},
       start_position: {x: 3, y: 3 },
       exit_gate: {x: 0, y: 7 }
     },
@@ -24,3 +24,5 @@ module LevelData
     }
   }
 end
+
+# TODO: add map info?? and refactor accordingly

@@ -5,34 +5,53 @@ class Game
 
   def initialize
     @current_level = 1
-    @mundus = Mundus.new(@current_level)
-    @camera = Camera.new(@mundus.grid, @mundus.csv_path)
-    @start_position = LevelData::LEVELS[@current_level][:start_position]
-    @hero = Hero.new(@start_position[:x], @start_position[:y], @mundus.tile_size)
     @ui = UI.new
-    @state = :exploring
-    @orbes = []
-    spawn_orbes(@current_level)
-    refresh_camera
+    load_mundum(@current_level)
     setup_inputs
-    @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
   end
 
+  def load_mundum(level)
+    @data = LevelData::LEVELS[@current_level]
+    raise "Ave! You've conquered all of Rome!" if @data.nil?
+
+    # clean up before we start
+    @camera&.clear_tiles
+    @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
+    @libellum&.remove_from_world
+
+    @mundus = Mundus.new(@current_level)
+    puts 'New World Created!'
+    @camera = Camera.new(@mundus.grid, @mundus.csv_path)
+    puts 'New Camera Created!'
+    start_position = @data[:start_position]
+    @hero = Hero.new(start_position[:x], start_position[:y], @mundus.tile_size)
+
+
+    @orbes = []
+    spawn_orbes(@current_level)
+
+    @libellum = nil
+    @gate_opened = false
+    @state = :exploring
+
+    @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
+    refresh_camera
+  end
+
+
   def spawn_orbes(level)
-    LevelData::LEVELS[@current_level][:orbes].each do |v|
-      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum])
+    @data[:orbes].each do |o|
+      @orbes << Orbs.new(o[:x], v[:y], @mundus.tile_size, o[:verbum])
     end
+    puts 'New Orbes Spawned!'
   end
 
   def setup_inputs
     Ruby2D::Window.on :key_down do |event|
       case @state
-      when :exploring
-        handle_movement(event.key)
-      when :dialogue
-        handle_dialogue_input(event.key)
-      when :literature
-        handle_literature_input(event.key)
+      when :exploring then handle_movement(event.key)
+      when :dialogue then handle_dialogue_input(event.key)
+      when :literature then  handle_literature_input(event.key)
       end
     end
   end
@@ -61,6 +80,7 @@ class Game
       @hero.update_position(next_x, next_y)
       check_orb_collisions
       check_libellum_collisions if @libellum
+      check_for_new_level
       refresh_camera
     end
   end
@@ -91,23 +111,24 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-    # spawn libellum
+    
+    libellum = LevelData::LEVELS[@current_level][:libellum]
     if @hero.sacchus.size == @orbes.size && @libellum.nil?
-      @libellum = Libellum.new(29, 20, @mundus.tile_size, "Vergelii Aeneas", "Arma virumque canō")
+      @libellum = Libellum.new(
+        libellum[:x], libellum[:y], @mundus.tile_size, 
+        libellum[:title], libellum[:text]
+        )
       puts "A sacred scroll has appeared in the city!"
     end
   end
 
   def check_libellum_collisions
-    # TODO: accout for seen libella
-    next if @libellum && @libellum.visum
-
-      if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
-        @libellum.visum = true
-        @state = :literature
-        @ui.libellum_monstratur(@libellum.title, @libellum.text)
-        fac_mundum_novum
-      end
+    if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
+      @libellum.visum = true
+      @state = :literature
+      @ui.libellum_monstratur(@libellum.title, @libellum.text)
+      # account for seen libella
+      fac_mundum_novum
     end
   end
 
@@ -121,17 +142,6 @@ class Game
       puts "Level up to level #{@current_level}!"
       load_mundum
     end
-  end
-
-  def load_mundum
-    @mundus = Mundus.new(@current_level)
-    puts 'New World Created!'
-    @orbes.clear
-    spawn_orbes(@current_level)
-    puts 'New Orbes Spawned!'
-    @start_position = LevelData::LEVELS[@current_level][:start_position]
-    @hero.update_position(@start_position[:x], @start_position[:y])
-    refresh_camera
   end
 
   def refresh_camera

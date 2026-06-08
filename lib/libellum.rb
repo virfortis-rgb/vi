@@ -37,4 +37,8 @@ class Libellum
       @libellum.remove
     end
   end
+
+  def remove_from_world
+    @libellum.remove
+  end
 end
