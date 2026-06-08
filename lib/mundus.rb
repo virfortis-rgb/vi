@@ -37,9 +37,16 @@ def update_camera(player_grid_x, player_grid_y)
       sprite.y = screen_y * @tile_size
       # Change its color dynamically depending on what part of the world shifted into view
       case tile_type
-      when 0 then sprite.color = 'white'
-      when 1 then sprite.color = 'gray'
+      when 1 then sprite.color = 'white'
       when 2 then sprite.color = 'olive'
+      when 3 then sprite.color = 'white'
+      when 4 then sprite.color = 'grey'
+      when 5 then sprite.color = 'grey'
+      when 6 then sprite.color = 'grey'
+      when 7 then sprite.color = 'grey'
+      when 8 then sprite.color = 'grey'
+      when 9 then sprite.color = 'green'
+      when 0 then sprite.color = 'green'
       end
     end
   end
