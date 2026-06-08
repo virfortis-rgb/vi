@@ -55,7 +55,7 @@ def update_camera(player_grid_x, player_grid_y)
   end
 
   def via_nova(x, y)
-    @grid[y][x] = 0
+    @grid[y][x] = 1 # change to walkable path
     CSV.open(@csv_path, 'wb') do |csv|
       @grid.each do |row|
         csv << row
