@@ -6,7 +6,7 @@ class Game
   def initialize
     @current_level = 1
     @mundus = Mundus.new(@current_level)
-    @camera = Camera.new(@mundus.grid)
+    @camera = Camera.new(@mundus.grid, @mundus.csv_path)
     @start_position = LevelData::LEVELS[@current_level][:start_position]
     @hero = Hero.new(@start_position[:x], @start_position[:y], @mundus.tile_size)
     @ui = UI.new
@@ -55,6 +55,7 @@ class Game
       next_x += 1
       @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
     end
+    puts "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}"
 
     if @mundus.walkable?(next_x, next_y) # how to refactor??
       @hero.update_position(next_x, next_y)
@@ -99,6 +100,7 @@ class Game
   end
 
   def check_libellum_collisions
+    # TODO: accout for seen libella
     if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
       @libellum.visum = true
       @state = :literature
@@ -110,20 +112,24 @@ class Game
   def fac_mundum_novum
     @gate = LevelData::LEVELS[@current_level][:exit_gate]
     @camera.via_nova(@gate[:x], @gate[:y])
-    if @hero.grid_x == @gate[:x] && @hero.grid_y = @gate[:grid_y]
+    puts "Level: #{@current_level}"
+    puts "Exit gate: #{@gate}"
+    if @hero.grid_x == @gate[:x] && @hero.grid_y == @gate[:y]
       @current_level += 1
-      load_mundum(@current_level)
+      puts "Level up to level #{@current_level}!"
+      load_mundum
     end
   end
 
-  def load_mundum(level)
-    # new map
-    @mundus = Mundus.new(level)
-    # clear orbes + new orbes
+  def load_mundum
+    @mundus = Mundus.new(@current_level)
+    puts 'New World Created!'
     @orbes.clear
     spawn_orbes(@current_level)
+    puts 'New Orbes Spawned!'
     @start_position = LevelData::LEVELS[@current_level][:start_position]
     @hero.update_position(@start_position[:x], @start_position[:y])
+    refresh_camera
   end
 
   def refresh_camera

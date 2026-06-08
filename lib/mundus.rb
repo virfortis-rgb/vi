@@ -5,7 +5,7 @@ class Mundus
   VIEW_WIDTH_TILES = 32
   VIEW_HEIGHT_TILES = 18
 
-  attr_reader :tile_size, :grid
+  attr_reader :tile_size, :grid, :csv_path
 
   def initialize(level)
     @tile_size = TILE_SIZE

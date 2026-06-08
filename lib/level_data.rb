@@ -9,7 +9,7 @@ module LevelData
       ],
       libellum: {},
       start_position: {x: 3, y: 3 },
-      exit_gate: {x: 0, y: 8 }
+      exit_gate: {x: 0, y: 7 }
     },
     2 => {
       orbes: [
@@ -19,7 +19,7 @@ module LevelData
         { x: 23, y: 21, verbum: 'arma' },
       ],
       libellum: {},
-      start_position: {x: 50, y: 8},
+      start_position: {x: 50, y: 7},
       exit_gate: {x: 0, y: 12}
     }
   }

@@ -1,12 +1,11 @@
-require_relative './mundus'
-
 class Camera
   TILE_SIZE = 40
   VIEW_WIDTH_TILES = 32
   VIEW_HEIGHT_TILES = 18
 
-  def initialize(grid)
+  def initialize(grid, csv_path)
     @grid = grid
+    @csv_path =  csv_path
     @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
       @tile_size = TILE_SIZE
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
@@ -46,7 +45,7 @@ class Camera
         end
       end
     end
-    # Return camera offsets so Julius can update his relative viewport drawing
+    # Return camera offsets so the hero can update his relative viewport drawing
     [camera_x_tile, camera_y_tile]
   end
 
