@@ -1,47 +1,26 @@
 require 'ruby2d'
 require_relative './class_index'
 
-INDEX_VERBORUM = [
-  {
-    x: 5,
-    y: 3,
-    verbum: 'cano'
-  },
-  {
-    x: 12,
-    y: 5,
-    verbum: 'verum'
-  },
-  {
-    x: 3,
-    y: 15,
-    verbum: 'et'
-  },
-  {
-    x: 23,
-    y: 21,
-    verbum: 'arma'
-  },
-]
-
 class Game
 
   def initialize
-    @mundus = Mundus.new(1)
+    @current_level = 1
+    @mundus = Mundus.new(@current_level)
     @camera = Camera.new(@mundus.grid)
-    @hero = Hero.new(3, 3, @mundus.tile_size) # because worlds change should I hard code tile_size?
+    @start_position = LevelData::LEVELS[@current_level][:start_position]
+    @hero = Hero.new(@start_position[:x], @start_position[:y], @mundus.tile_size)
     @ui = UI.new
     @state = :exploring
     @orbes = []
-    spawn_initial_orbes
+    spawn_orbes(@current_level)
     refresh_camera
     setup_inputs
     @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
   end
 
-  def spawn_initial_orbes
-    INDEX_VERBORUM.each do |v|
-      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum]) # tile_size??
+  def spawn_orbes(level)
+    LevelData::LEVELS[@current_level][:orbes].each do |v|
+      @orbes << Orbs.new(v[:x], v[:y], @mundus.tile_size, v[:verbum])
     end
   end
 
@@ -124,16 +103,27 @@ class Game
       @libellum.visum = true
       @state = :literature
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
-      # unlock new level
       fac_mundum_novum
     end
   end
 
   def fac_mundum_novum
-    # open new path to mundus
-    @mundus.via_nova(0, 7)
-    # generate new munuds
-    @mundus_secundus = Mundus.new('assets/mundi/mundus_secundus.csv')
+    @gate = LevelData::LEVELS[@current_level][:exit_gate]
+    @camera.via_nova(@gate[:x], @gate[:y])
+    if @hero.grid_x == @gate[:x] && @hero.grid_y = @gate[:grid_y]
+      @current_level += 1
+      load_mundum(@current_level)
+    end
+  end
+
+  def load_mundum(level)
+    # new map
+    @mundus = Mundus.new(level)
+    # clear orbes + new orbes
+    @orbes.clear
+    spawn_orbes(@current_level)
+    @start_position = LevelData::LEVELS[@current_level][:start_position]
+    @hero.update_position(@start_position[:x], @start_position[:y])
   end
 
   def refresh_camera
