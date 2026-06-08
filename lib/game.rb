@@ -91,7 +91,6 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-
     # spawn libellum
     if @hero.sacchus.size == @orbes.size && @libellum.nil?
       @libellum = Libellum.new(29, 20, @mundus.tile_size, "Vergelii Aeneas", "Arma virumque canō")
@@ -101,11 +100,14 @@ class Game
 
   def check_libellum_collisions
     # TODO: accout for seen libella
-    if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
-      @libellum.visum = true
-      @state = :literature
-      @ui.libellum_monstratur(@libellum.title, @libellum.text)
-      fac_mundum_novum
+    next if @libellum && @libellum.visum
+
+      if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
+        @libellum.visum = true
+        @state = :literature
+        @ui.libellum_monstratur(@libellum.title, @libellum.text)
+        fac_mundum_novum
+      end
     end
   end
 
