@@ -28,6 +28,7 @@ class Game
 
   def initialize
     @mundus = Mundus.new('assets/mundi/mundus.csv')
+    @camera = Camera.new(@mundus.grid)
     @hero = Hero.new(3, 3, @mundus.tile_size) # because worlds change should I hard code tile_size?
     @ui = UI.new
     @state = :exploring
@@ -137,7 +138,7 @@ class Game
 
   def refresh_camera
     # 1. Tell mundus to shift its tiles around the hero, and get back the map's camera coordinates
-    camera_offsets = @mundus.update_camera(@hero.grid_x, @hero.grid_y)
+    camera_offsets = @camera.update(@hero.grid_x, @hero.grid_y)
 
     # 2. Tell the hero to draw himself relative to those camera coordinates
     @hero.update_sprite_viewport(camera_offsets[0], camera_offsets[1])

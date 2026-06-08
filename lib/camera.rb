@@ -1,16 +1,19 @@
+require_relative './mundus'
+
 class Camera
   TILE_SIZE = 40
   VIEW_WIDTH_TILES = 32
   VIEW_HEIGHT_TILES = 18
 
-  def initialize
+  def initialize(grid)
+    @grid = grid
     @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
       @tile_size = TILE_SIZE
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
     end
   end
 
-  def update_camera(player_grid_x, player_grid_y)
+  def update(player_grid_x, player_grid_y)
     # 1. Figure out where the top-left corner of the camera should be in world coordinates
     camera_x_tile = (player_grid_x - (VIEW_WIDTH_TILES / 2)).clamp(0, @grid[0].size - VIEW_WIDTH_TILES)
     camera_y_tile = (player_grid_y - (VIEW_HEIGHT_TILES / 2)).clamp(0, @grid.size - VIEW_HEIGHT_TILES)
