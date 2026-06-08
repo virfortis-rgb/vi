@@ -7,11 +7,11 @@ class Mundus
 
   attr_reader :tile_size
 
-  def initialize
+  def initialize(csv_path)
     @tile_size = TILE_SIZE
-    path = 'assets/mundi/mundus.csv'
-    raw_mundus_data = File.join(File.dirname(__FILE__), path)
-    @grid = CSV.read(path).map { |row| row.map(&:to_i) }
+    @csv_path = csv_path
+    #raw_mundus_data = File.join(File.dirname(__FILE__), @csv_path)
+    @grid = CSV.read(@csv_path).map { |row| row.map(&:to_i) }
     @sprites_pool = Array.new(VIEW_HEIGHT_TILES) do
       Array.new(VIEW_WIDTH_TILES) { Square.new(size: @tile_size) }
     end
@@ -46,6 +46,15 @@ def update_camera(player_grid_x, player_grid_y)
 
     # Return camera offsets so Julius can update his relative viewport drawing
     [camera_x_tile, camera_y_tile]
+  end
+
+  def via_nova(x, y)
+    @grid[y][x] = 0
+    CSV.open(@csv_path, 'wb') do |csv|
+      @grid.each do |row|
+        csv << row
+      end
+    end
   end
 
   # Helper method to verify the hero isn't walking into an obstacle
