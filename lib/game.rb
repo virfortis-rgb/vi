@@ -38,7 +38,6 @@ class Game
     refresh_camera
   end
 
-
   def spawn_orbes(level)
     @data[:orbes].each do |o|
       @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
