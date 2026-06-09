@@ -39,6 +39,6 @@ class Libellum
   end
 
   def remove_from_world
-    @libellum.remove
+    @libellum.remove # not working
   end
 end
