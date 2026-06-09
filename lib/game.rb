@@ -16,7 +16,6 @@ class Game
     @current_level = level
     @data = LevelData::LEVELS[@current_level]
     raise "Ave! You've conquered all of Rome!" if @data.nil?
-    # clean up before we start
     @camera&.clear_tiles
     @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
     @libellum&.remove_from_world
@@ -24,16 +23,12 @@ class Game
     puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
     puts 'New Camera Created!'
-    # might need
-    # @map_grid = @mundus.grid
     spawn_x = custom_spawn_x || 3
     spawn_y = custom_spawn_y || 3
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil
-    # no longer needed??
-    # @gate_opened = false
     @state = :exploring
 
     if @unlocked_levels[level] == true
@@ -63,8 +58,7 @@ class Game
   end
 
   def handle_movement(key)
-    next_x = @hero.grid_x
-    next_y = @hero.grid_y
+    next_x = @hero.grid_x, next_y = @hero.grid_y
 
     case key
     when 'left'
@@ -96,7 +90,6 @@ class Game
     if key == 'space'
       @ui.hide_dialogue
       @state = :exploring
-      # check_for_libellum_spawn if @libellum.nil? && !@gate_opened
     end
   end
 
@@ -121,8 +114,11 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-    
-    libellum = LevelData::LEVELS[@current_level][:libellum]
+    spawn_libellum
+  end
+
+  def spawn_libellum
+    libellum = @data[:libellum]
     if @hero.sacchus.size == @orbes.size && @libellum.nil?
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
@@ -148,7 +144,7 @@ class Game
   def portae_apertitur
     @unlocked_levels[@current_level] = true
     @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
-       # same method in load_mundum??
+       # TODO: same method in load_mundum??
     puts "Levels opened up!"
   end
 
