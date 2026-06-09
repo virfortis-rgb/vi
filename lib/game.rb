@@ -12,7 +12,7 @@ class Game
     setup_inputs
   end
 
-  def load_mundum(level, custom_spawn_x, custom_spawn_y)
+  def load_mundum(level, custom_spawn_x = nil, custom_spawn_y = nil)
     @current_level = level
     @data = LevelData::LEVELS[@current_level]
     raise "Ave! You've conquered all of Rome!" if @data.nil?
@@ -45,8 +45,8 @@ class Game
 
   def spawn_orbes(level)
     @data[:orbes].each do |o|
-      id = "#{level_num}_#{o[:verbum]}"
-      next if @collected_orbes.include(id)?
+      id = "#{level}_#{o[:verbum]}"
+      next if @collected_orbes.include?(id)
       @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
     end
     puts 'New Orbes Spawned!'
@@ -114,9 +114,9 @@ class Game
       if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
         orbs.visa = true
         @hero.sacchus << orbs
-        id = "#{level_num}_#{orbs[:verbum]}"
+        id = "#{@current_level}_#{orbs.verbum}"
         @collected_orbes << id
-        @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
+        @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
         @state = :dialogue
         @ui.show_dialogue(orbs.verbum)
       end
