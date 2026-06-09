@@ -132,9 +132,6 @@ class Game
     end
   end
 
-  # def check_for_libellum_spawn
-  # end
-
   def check_libellum_collisions
     return if @libellum.nil?
 
@@ -149,21 +146,19 @@ class Game
   end
 
   def portae_apertitur
-    @gate = LevelData::LEVELS[@current_level][:exit_gate]
-    @camera.via_nova(@gate[:x], @gate[:y])
-    @gate_opened = true
-    puts "New Gate opened!"
-    puts "Level: #{@current_level}"
-    puts "Exit gate: #{@gate}"
+    @unlocked_levels[@current_level] = true
+    @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
+       # same method in load_mundum??
+    puts "Levels opened up!"
   end
 
   def check_portals
-    return unless @gate_opened
-
-    if @hero.grid_x == @gate[:x] && @hero.grid_y == @gate[:y]
-    @current_level += 1
-    puts "Level up to level #{@current_level}!"
-    load_mundum(@current_level)
+    @data[:portals].each do |p| 
+      if @hero.grid_x == p[:x] && @hero.grid_y == p[:y]
+      puts "Level up to level #{p[:target_level]}!"
+      load_mundum(p[:target_level], p[:spawn_x], p[:spawn_y])
+      break
+      end
     end
   end
 
