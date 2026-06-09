@@ -45,6 +45,6 @@ class Libellum
   end
 
   def remove_from_world
-    @sprite.remove
+    @sprite.remove # not working
   end
 end
