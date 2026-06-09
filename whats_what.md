@@ -46,7 +46,7 @@
   - future: a player should be able to go back to previous maps (maybe as a way to access libellum or orbs that were spwned later ?)
   - logic:
   1. add trigger_tiles (portals) and spawn co-ordinates for each level => level_data.rb
-  2. need to track unlocked_levels, as well as collected orbs and libellum (arrays?) => initiate and update => use in open_levels method that'll keep tracj of which worlds and portals should be open as well as which orbs and libellum should not be spawned again
+  2. need to track unlocked_levels, as well as collected orbs and libellum (arrays?) => initiate and update => use in open_levels method that'll keep track of which worlds and portals should be open as well as which orbs and libellum should not be spawned again
   3. udate load_mundum to accept spawn co-oridinates 
   4. add method to open the levels that should be open
   5. add method (revise novam_viam) to accoutn for portals (atm, just exit_gate)

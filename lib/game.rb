@@ -6,11 +6,14 @@ class Game
   def initialize
     @current_level = 1
     @ui = UI.new
+    @unlocked_levels = {}
+    @collected_orbes = []
     load_mundum(@current_level)
     setup_inputs
   end
 
-  def load_mundum(level)
+  def load_mundum(level, custom_spawn_x, custom_spawn_y)
+    @current_level = level
     @data = LevelData::LEVELS[@current_level]
     raise "Ave! You've conquered all of Rome!" if @data.nil?
 
@@ -23,15 +26,20 @@ class Game
     puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
     puts 'New Camera Created!'
-    start_position = @data[:start_position]
-    @hero = Hero.new(start_position[:x], start_position[:y], @mundus.tile_size)
 
+    # might need
+    # @map_grid = @mundus.grid
+
+    spawn_x = custom_spawn_x || 3
+    spawn_y = custom_spawn_y || 3
+    @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
 
     @orbes = []
     spawn_orbes(@current_level)
 
     @libellum = nil
-    @gate_opened = false
+    # no longer needed??
+    # @gate_opened = false
     @state = :exploring
 
     @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
@@ -40,6 +48,8 @@ class Game
 
   def spawn_orbes(level)
     @data[:orbes].each do |o|
+      id = "#{level_num}_#{o[:verbum]}"
+      next if @collected_orbes.include(id)?
       @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
     end
     puts 'New Orbes Spawned!'
