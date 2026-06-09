@@ -42,7 +42,7 @@ class Game
     # @gate_opened = false
     @state = :exploring
 
-    @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
+    @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
     refresh_camera
   end
 

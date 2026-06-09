@@ -36,8 +36,8 @@ class UI
     @prompt.remove
   end
 
-  def sacchus_monstratur(text)
-    @hud.text = text
+  def sacchus_monstratur(level, sacchus, orbes_size)
+    @hud.text = "Level: #{level} || Orbes in saccho: #{sacchus}/#{orbes_size}"
   end
 
   def libellum_monstratur(title, text)
