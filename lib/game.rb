@@ -58,7 +58,8 @@ class Game
   end
 
   def handle_movement(key)
-    next_x = @hero.grid_x, next_y = @hero.grid_y
+    next_x = @hero.grid_x
+    next_y = @hero.grid_y
 
     case key
     when 'left'
