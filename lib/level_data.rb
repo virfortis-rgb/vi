@@ -8,8 +8,13 @@ module LevelData
         { x: 23, y: 21, verbum: 'arma' },
       ],
       libellum: {x: 29, y: 20, title: "Vergelii Aeneas", text: "Arma virumque canō"},
-      start_position: {x: 3, y: 3 },
-      exit_gate: {x: 0, y: 7 }
+      portals: [
+        {
+        x: 0, y: 7,
+        target_level: 2,
+        spawn_x: 50, spawn_y: 7 
+        }
+      ]
     },
     2 => {
       orbes: [
@@ -19,8 +24,18 @@ module LevelData
         { x: 23, y: 21, verbum: 'arma' },
       ],
       libellum: {},
-      start_position: {x: 50, y: 7},
-      exit_gate: {x: 0, y: 12}
+      portals: [
+        {
+        x: 51, y: 7,
+        target_level: 1,
+        spawn_x: 1, spawn_y: 7 
+        },
+        {
+        x: 0, y: 7,
+        target_level: 2,
+        spawn_x: 50, spawn_y: 8 
+        }
+      ]
     }
   }
 end
