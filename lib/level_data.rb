@@ -12,7 +12,7 @@ module LevelData
         {
         x: 0, y: 7,
         target_level: 2,
-        spawn_x: 50, spawn_y: 7 
+        spawn_x: 63, spawn_y: 7 
         }
       ]
     },
@@ -26,7 +26,7 @@ module LevelData
       libellum: {},
       portals: [
         {
-        x: 51, y: 7,
+        x: 63, y: 7,
         target_level: 1,
         spawn_x: 1, spawn_y: 7 
         },
