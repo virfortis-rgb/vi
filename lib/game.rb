@@ -16,32 +16,29 @@ class Game
     @current_level = level
     @data = LevelData::LEVELS[@current_level]
     raise "Ave! You've conquered all of Rome!" if @data.nil?
-
     # clean up before we start
     @camera&.clear_tiles
     @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
     @libellum&.remove_from_world
-
     @mundus = Mundus.new(@current_level)
     puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
     puts 'New Camera Created!'
-
     # might need
     # @map_grid = @mundus.grid
-
     spawn_x = custom_spawn_x || 3
     spawn_y = custom_spawn_y || 3
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
-
     @orbes = []
     spawn_orbes(@current_level)
-
     @libellum = nil
     # no longer needed??
     # @gate_opened = false
     @state = :exploring
 
+    if @unlocked_levels[level] == true
+      @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
+    end
     @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
     refresh_camera
   end
@@ -90,7 +87,7 @@ class Game
       @hero.update_position(next_x, next_y)
       check_orb_collisions
       check_libellum_collisions if @libellum
-      check_for_new_level
+      check_portals      
       refresh_camera
     end
   end
@@ -117,6 +114,8 @@ class Game
       if @hero.grid_x == orbs.grid_x && @hero.grid_y == orbs.grid_y
         orbs.visa = true
         @hero.sacchus << orbs
+        id = "#{level_num}_#{orbs[:verbum]}"
+        @collected_orbes << id
         @ui.sacchus_monstratur("Orbes in saccho: #{@hero.sacchus.size}/#{@orbes.size}")
         @state = :dialogue
         @ui.show_dialogue(orbs.verbum)
@@ -145,11 +144,11 @@ class Game
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
       @libellum.remove_from_world
       @libellum = nil
-      viam_novam_apertitur
+      portae_apertitur
     end
   end
 
-  def viam_novam_apertitur
+  def portae_apertitur
     @gate = LevelData::LEVELS[@current_level][:exit_gate]
     @camera.via_nova(@gate[:x], @gate[:y])
     @gate_opened = true
@@ -158,7 +157,7 @@ class Game
     puts "Exit gate: #{@gate}"
   end
 
-  def check_for_new_level
+  def check_portals
     return unless @gate_opened
 
     if @hero.grid_x == @gate[:x] && @hero.grid_y == @gate[:y]
