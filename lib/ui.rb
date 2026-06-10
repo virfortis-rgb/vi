@@ -4,10 +4,9 @@ require_relative './class_index'
 class UI
   def initialize
     # refactor!
-    @menu_options = ["Start Game", "Exit Game"]
     @menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @menu_title = Text.new("Menu", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
-    show_menu
+    @menu_text_options = []
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
     @text_box = Rectangle.new(
       x: 240, y: 500,
@@ -30,8 +29,7 @@ class UI
 
   def show_menu(options, index)
     options.each do |o|
-      @menu_text_options << menu_text = Text.new("#{index + 1}. #{o}", x: 280, y: 400, size: 28, color: 'white', z: 101)
-      menu_text.y += 50
+      @menu_text_options << menu_text = Text.new("#{index + 1}. #{o}", x: 280, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
       index += 1
     end
     @menu_box.add
