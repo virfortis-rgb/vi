@@ -29,7 +29,7 @@ class UI
 
   def show_menu(options, index)
     options.each do |o|
-      @menu_text_options << menu_text = Text.new("#{index + 1}. #{o}", x: 280, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
+      @menu_text_options << menu_text = Text.new("#{index}. #{o}", x: 280, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
       index += 1
     end
     @menu_box.add

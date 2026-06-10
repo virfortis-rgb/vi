@@ -34,7 +34,7 @@ class Game
       @menu_index = (@menu_index - 1) % @menu_options.size # 0
       @ui.update_menu_highlight(@menu_index)
     when 'down'
-      @menu_index = (@menu_index - 1) % @menu_options.size # 1
+      @menu_index = (@menu_index + 1) % @menu_options.size # 1
       @ui.update_menu_highlight(@menu_index)
     when 'space' 
       execute_menu
@@ -76,6 +76,9 @@ class Game
     when 'right'
       next_x += 1
       @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
+    when 'm' # after second time, doesn't work any more
+      @state = :menu
+      @ui.show_menu(@menu_options, @menu_index = 1)
     end
     print "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}" + "\r"
     $stdout.flush 
