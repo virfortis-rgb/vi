@@ -45,3 +45,10 @@
   - Start game
   - Load saved game
   - Exit
+  - logic:
+  1. initialize game with menu state
+  2. menu options (atm 2)
+  3. state_manager: if :menu, up-down changes selected option
+                              space/enter activates sequence
+                                 1. start game - change state to explore
+                                 2. exit game - read docs - trigger close in main.rb

@@ -15,5 +15,4 @@ Game.new
 
 show
 
-# TODO: how to reset game?
-# in reset method should also be revert mundus.csv to original
+# TODO: how to save game?

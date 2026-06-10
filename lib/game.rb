@@ -8,52 +8,43 @@ class Game
     @ui = UI.new
     @unlocked_levels = {}
     @collected_orbes = []
-    load_mundum(@current_level)
+    @menu_options = ["Start Game", "Exit Game"]
+    @menu_index = 0
+    @state = :menu
+    @ui.show_menu(@menu_options, @menu_index)
     setup_inputs
-  end
-
-  def load_mundum(level, custom_spawn_x = nil, custom_spawn_y = nil)
-    @current_level = level
-    @data = LevelData::LEVELS[@current_level]
-    raise "Ave! You've conquered all of Rome!" if @data.nil?
-    @camera&.clear_tiles
-    @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
-    @libellum&.remove_from_world
-    @mundus = Mundus.new(@current_level)
-    puts 'New World Created!'
-    @camera = Camera.new(@mundus.grid, @mundus.csv_path)
-    puts 'New Camera Created!'
-    spawn_x = custom_spawn_x || 3
-    spawn_y = custom_spawn_y || 3
-    @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
-    @orbes = []
-    spawn_orbes(@current_level)
-    @libellum = nil
-    @state = :exploring
-
-    if @unlocked_levels[level] == true
-      @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
-    end
-    @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
-    refresh_camera
-  end
-
-  def spawn_orbes(level)
-    @data[:orbes].each do |o|
-      id = "#{level}_#{o[:verbum]}"
-      next if @collected_orbes.include?(id)
-      @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
-    end
-    puts 'New Orbes Spawned!'
   end
 
   def setup_inputs
     Ruby2D::Window.on :key_down do |event|
       case @state
+      when :menu then handle_menu(event.key)
       when :exploring then handle_movement(event.key)
       when :dialogue then handle_dialogue_input(event.key)
       when :literature then  handle_literature_input(event.key)
       end
+    end
+  end
+
+  def handle_menu(key)
+    case key
+    when 'up'
+      @menu_index -= 1
+    when 'down'
+      @menu_index += 1
+    when 'space' 
+      execute_menu
+    end
+  end
+
+  def execute_menu
+    case @menu_index
+    when 'start game ---'
+      @ui.hide_menu
+      @state = :exploring
+      load_mundum(@current_level)
+    when 'Exit game'
+      close
     end
   end
 
@@ -99,6 +90,41 @@ class Game
       @ui.hide_libellum
       @state = :exploring
     end
+  end
+
+  def load_mundum(level, custom_spawn_x = nil, custom_spawn_y = nil)
+    @current_level = level
+    @data = LevelData::LEVELS[@current_level]
+    raise "Ave! You've conquered all of Rome!" if @data.nil?
+    @camera&.clear_tiles
+    @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
+    @libellum&.remove_from_world
+    @mundus = Mundus.new(@current_level)
+    puts 'New World Created!'
+    @camera = Camera.new(@mundus.grid, @mundus.csv_path)
+    puts 'New Camera Created!'
+    spawn_x = custom_spawn_x || 3
+    spawn_y = custom_spawn_y || 3
+    @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
+    @orbes = []
+    spawn_orbes(@current_level)
+    @libellum = nil
+    @state = :exploring
+
+    if @unlocked_levels[level] == true
+      @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
+    end
+    @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
+    refresh_camera
+  end
+
+  def spawn_orbes(level)
+    @data[:orbes].each do |o|
+      id = "#{level}_#{o[:verbum]}"
+      next if @collected_orbes.include?(id)
+      @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
+    end
+    puts 'New Orbes Spawned!'
   end
 
   def check_orb_collisions
