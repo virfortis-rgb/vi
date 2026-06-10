@@ -9,7 +9,7 @@ class Game
     @unlocked_levels = {}
     @collected_orbes = []
     @menu_options = ["Start Game", "Exit Game"]
-    @menu_index = 0
+    @menu_index = 1
     @state = :menu
     @ui.show_menu(@menu_options, @menu_index)
     setup_inputs
@@ -29,9 +29,11 @@ class Game
   def handle_menu(key)
     case key
     when 'up'
-      @menu_index -= 1
+      @menu_index = (@menu_index - 1) % @menu_options.size # 0
+      @ui.update_menu_highlight(@menu_index)
     when 'down'
-      @menu_index += 1
+      @menu_index = (@menu_index - 1) % @menu_options.size # 1
+      @ui.update_menu_highlight(@menu_index)
     when 'space' 
       execute_menu
     end
@@ -39,12 +41,12 @@ class Game
 
   def execute_menu
     case @menu_index
-    when 'start game ---'
+    when 0
       @ui.hide_menu
       @state = :exploring
       load_mundum(@current_level)
-    when 'Exit game'
-      close
+    when 1
+      Ruby2D::Window.close
     end
   end
 

@@ -38,6 +38,11 @@ class UI
     @prompt.add
   end
 
+  def update_menu_highlight(index)
+    @menu_text_options.each { |o| o.color = 'white' }
+    @menu_text_options[index].color = 'yellow'
+  end
+
   def hide_menu
     @menu_box.remove
     @menu_title.remove
