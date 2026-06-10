@@ -121,7 +121,7 @@ class Game
     raise "Ave! You've conquered all of Rome!" if @data.nil?
     @camera&.clear_tiles
     @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
-    @libellum&.remove_from_world # let'S think about it
+    @libellum&.remove_from_world # let's think about it
     @mundus = Mundus.new(@current_level)
     puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
@@ -132,7 +132,9 @@ class Game
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil # same as above?
-    @state = :exploring
+    @status = :notification
+    puts "#{@status}"
+    @ui.show_notification("Level up to level #{level}!") unless level == 1
 
     if @unlocked_levels[level] == true
       @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
@@ -174,7 +176,6 @@ class Game
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
-        # dialogue on notification spawn at the same time ???
       @state = :notification
       @ui.show_notification("A sacred scroll has appeared in the city!")
     end
@@ -203,8 +204,6 @@ class Game
   def check_portals
     @data[:portals].each do |p| 
       if @hero.grid_x == p[:x] && @hero.grid_y == p[:y]
-      @status = :notification
-      @ui.show_notification("Level up to level #{p[:target_level]}!")
       load_mundum(p[:target_level], p[:spawn_x], p[:spawn_y])
       break
       end
