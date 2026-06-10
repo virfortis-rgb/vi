@@ -20,6 +20,7 @@ class Game
     Ruby2D::Window.on :key_down do |event|
       case @state
       when :menu then handle_menu(event.key)
+      # when :story then handle_story(event.key)
       when :exploring then handle_movement(event.key)
       when :dialogue then handle_dialogue_input(event.key)
       when :literature then  handle_literature_input(event.key)
@@ -44,10 +45,17 @@ class Game
     case @menu_index
     when 0
       @ui.hide_menu
-      @state = :exploring
-      # load_mundum(@current_level)
+      @state = :exploring # :story
     when 1
       Ruby2D::Window.close
+    end
+  end
+
+  def handle_story(key)
+    case key
+    when 'space' 
+      "something"
+      # 
     end
   end
 
