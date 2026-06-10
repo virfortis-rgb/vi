@@ -10,7 +10,7 @@ class Game
     @collected_orbes = []
     load_mundum(@current_level)
     @menu_options = ["Start Game", "Exit Game"]
-    @menu_index = 1
+    @menu_index = 0
     @state = :menu
     @ui.show_menu(@menu_options, @menu_index)
     setup_inputs
@@ -23,6 +23,7 @@ class Game
       # when :story then handle_story(event.key)
       when :exploring then handle_movement(event.key)
       when :dialogue then handle_dialogue_input(event.key)
+      when :notification then handle_notification(event.key)
       when :literature then  handle_literature_input(event.key)
       end
     end
@@ -78,7 +79,7 @@ class Game
       @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
     when 'm' # after second time, doesn't work any more
       @state = :menu
-      @ui.show_menu(@menu_options, @menu_index = 1)
+      @ui.show_menu(@menu_options, @menu_index = 0)
     end
     print "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}" + "\r"
     $stdout.flush 
@@ -102,6 +103,13 @@ class Game
   def handle_literature_input(key)
     if key == 'space'
       @ui.hide_libellum
+      @state = :exploring
+    end
+  end
+
+  def handle_notification(key)
+    if key == 'space'
+      @ui.hide_notification
       @state = :exploring
     end
   end
@@ -165,7 +173,8 @@ class Game
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
-      puts "A sacred scroll has appeared in the city!"
+      @ui.show_notification("A sacred scroll has appeared in the city!")
+      @status = :notification
     end
   end
 
@@ -192,7 +201,8 @@ class Game
   def check_portals
     @data[:portals].each do |p| 
       if @hero.grid_x == p[:x] && @hero.grid_y == p[:y]
-      puts "Level up to level #{p[:target_level]}!"
+      @ui.show_notification("Level up to level #{p[:target_level]}!")
+      @status = :notification
       load_mundum(p[:target_level], p[:spawn_x], p[:spawn_y])
       break
       end
@@ -204,9 +214,7 @@ class Game
     camera_offsets = @camera.update(@hero.grid_x, @hero.grid_y)
     # 2. Tell the hero to draw himself relative to those camera coordinates
     @hero.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
-    @orbes.each do |orb|
-      orb.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
-    end
+    @orbes.each { |orb| orb.update_sprite_viewport(camera_offsets[0], camera_offsets[1]) }
     if @libellum
       @libellum.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
     end
