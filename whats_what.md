@@ -42,6 +42,4 @@
   - Intro to story
 
 ## 3. Main Menu
-  - Start game
-  - Load saved game
-  - Exit
+  - How to save a game ???

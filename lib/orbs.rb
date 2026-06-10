@@ -14,8 +14,7 @@ class Orbs
 
     @orbs_simplex = Circle.new(
       radius: @tile_size / 3,
-      color: 'yellow',
-      z: 100
+      color: 'yellow'
     )
   end
 
