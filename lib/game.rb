@@ -13,6 +13,7 @@ class Game
     @menu_index = 0
     @state = :menu
     @ui.show_menu(@menu_options, @menu_index)
+    @ui.update_menu_highlight(@menu_index)
     setup_inputs
   end
 
@@ -52,13 +53,13 @@ class Game
     end
   end
 
-  def handle_story(key)
-    case key
-    when 'space' 
-      "something"
-      # 
-    end
-  end
+  # def handle_story(key)
+  #   case key
+  #   when 'space' 
+  #     "something"
+  #     # 
+  #   end
+  # end
 
   def handle_movement(key)
     next_x = @hero.grid_x
@@ -168,13 +169,13 @@ class Game
 
   def spawn_libellum
     libellum = @data[:libellum]
-    if @hero.sacchus.size == @orbes.size && @libellum.nil?
+    if @hero.sacchus.size == @orbes.size && @libellum.nil? && @state == :exploring
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
+      @state = :notification
       @ui.show_notification("A sacred scroll has appeared in the city!")
-      @status = :notification
     end
   end
 
@@ -201,8 +202,8 @@ class Game
   def check_portals
     @data[:portals].each do |p| 
       if @hero.grid_x == p[:x] && @hero.grid_y == p[:y]
-      @ui.show_notification("Level up to level #{p[:target_level]}!")
       @status = :notification
+      @ui.show_notification("Level up to level #{p[:target_level]}!")
       load_mundum(p[:target_level], p[:spawn_x], p[:spawn_y])
       break
       end

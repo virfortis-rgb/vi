@@ -8,12 +8,7 @@ class UI
     @menu_title = Text.new("Menu", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
     @menu_text_options = []
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
-    @text_box = Rectangle.new(
-      x: 240, y: 500,
-      width: 800, height: 160,
-      color: [0.1, 0.1, 0.1, 0.95], # Near-black with subtle transparency
-      z: 100 # Force it to float directly on top of everything
-    )
+    @text_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @text = Text.new("", x: 280, y: 525, size: 28, color: 'yellow', z: 101)
     @prompt = Text.new("[Press SPACE to continue]", x: 280, y: 575, size: 14, color: 'white', z: 101)
     hide_dialogue
@@ -21,8 +16,8 @@ class UI
     @libellum_title = Text.new("", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
     @libellum_text = Text.new("", x: 280, y: 400, size: 28, color: 'white', z: 101)
     hide_libellum
-    @notification_box = Rectangle.new(x: 200, y: 300, width: 820, height: 200, color: [0.1, 0.1, 0.1, 0.95], z: 100)
-    @notification = Text.new("", x: 210, y: 310, color: 'white')
+    @notification_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
+    @notification = Text.new("", x: 280, y: 525, size: 20, color: 'blue', z: 101)
     hide_notification
   end
 
