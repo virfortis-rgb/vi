@@ -8,6 +8,7 @@ class Game
     @ui = UI.new
     @unlocked_levels = {}
     @collected_orbes = []
+    load_mundum(@current_level)
     @menu_options = ["Start Game", "Exit Game"]
     @menu_index = 1
     @state = :menu
@@ -44,7 +45,7 @@ class Game
     when 0
       @ui.hide_menu
       @state = :exploring
-      load_mundum(@current_level)
+      # load_mundum(@current_level)
     when 1
       Ruby2D::Window.close
     end

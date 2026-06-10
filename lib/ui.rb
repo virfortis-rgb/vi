@@ -4,7 +4,7 @@ require_relative './class_index'
 class UI
   def initialize
     # refactor!
-    @menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.95], z: 100)
+    @menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.90], z: 100)
     @menu_title = Text.new("Menu", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
     @menu_text_options = []
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
