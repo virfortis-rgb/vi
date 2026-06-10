@@ -121,7 +121,7 @@ class Game
     raise "Ave! You've conquered all of Rome!" if @data.nil?
     @camera&.clear_tiles
     @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
-    @libellum&.remove_from_world
+    @libellum&.remove_from_world # let'S think about it
     @mundus = Mundus.new(@current_level)
     puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
@@ -131,7 +131,7 @@ class Game
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
     @orbes = []
     spawn_orbes(@current_level)
-    @libellum = nil
+    @libellum = nil # same as above?
     @state = :exploring
 
     if @unlocked_levels[level] == true
@@ -169,11 +169,12 @@ class Game
 
   def spawn_libellum
     libellum = @data[:libellum]
-    if @hero.sacchus.size == @orbes.size && @libellum.nil? && @state == :exploring
+    if @hero.sacchus.size == @orbes.size && !@libellum && @state == :exploring# keep an eye, might cause issues
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
+        # dialogue on notification spawn at the same time ???
       @state = :notification
       @ui.show_notification("A sacred scroll has appeared in the city!")
     end
@@ -187,7 +188,7 @@ class Game
       @state = :literature
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
       @libellum.remove_from_world
-      @libellum = nil
+      # @libellum = nil
       portae_apertitur
     end
   end
