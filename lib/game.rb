@@ -8,6 +8,7 @@ class Game
     @ui = UI.new
     @unlocked_levels = {}
     @collected_orbes = []
+    @collected_libella = []
     load_mundum(@current_level)
     @menu_options = ["Start Game", "Exit Game"]
     @menu_index = 0
@@ -123,18 +124,13 @@ class Game
     @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
     @libellum&.remove_from_world # let's think about it
     @mundus = Mundus.new(@current_level)
-    puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
-    puts 'New Camera Created!'
     spawn_x = custom_spawn_x || 3
     spawn_y = custom_spawn_y || 3
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil # same as above?
-    @status = :notification
-    puts "#{@status}"
-    @ui.show_notification("Level up to level #{level}!") unless level == 1
 
     if @unlocked_levels[level] == true
       @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
@@ -149,7 +145,6 @@ class Game
       next if @collected_orbes.include?(id)
       @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
     end
-    puts 'New Orbes Spawned!'
   end
 
   def check_orb_collisions
@@ -171,13 +166,17 @@ class Game
 
   def spawn_libellum
     libellum = @data[:libellum]
-    if @hero.sacchus.size == @orbes.size && !@libellum && @state == :exploring# keep an eye, might cause issues
+    if @hero.sacchus.size == @orbes.size && !@libellum && @state == :exploring # keep an eye, might cause issues
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
-      @state = :notification
-      @ui.show_notification("A sacred scroll has appeared in the city!")
+      id = "#{@current_level}_#{@libellum.title}"
+      unless @collected_libella.include?(id)
+        @state = :notification
+        @ui.show_notification("A sacred scroll has appeared in the city!")
+      end
+      @collected_libella << id
     end
   end
 
@@ -189,7 +188,7 @@ class Game
       @state = :literature
       @ui.libellum_monstratur(@libellum.title, @libellum.text)
       @libellum.remove_from_world
-      # @libellum = nil
+      @libellum = nil
       portae_apertitur
     end
   end
@@ -205,6 +204,8 @@ class Game
     @data[:portals].each do |p| 
       if @hero.grid_x == p[:x] && @hero.grid_y == p[:y]
       load_mundum(p[:target_level], p[:spawn_x], p[:spawn_y])
+        @state = :notification
+        @ui.show_notification("Level up to level #{@current_level}!")
       break
       end
     end
