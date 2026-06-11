@@ -161,7 +161,7 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-    spawn_libellum
+    spawn_libellum unless @collected_libella.include?(@libellum_id) # get id for libellum
   end
 
   def spawn_libellum
@@ -171,12 +171,12 @@ class Game
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
-      id = "#{@current_level}_#{@libellum.title}"
-      unless @collected_libella.include?(id)
+      @libellum_id = "#{@current_level}_#{@libellum.title}"
+      unless @collected_libella.include?(@libellum_id)
         @state = :notification
         @ui.show_notification("A sacred scroll has appeared in the city!")
       end
-      @collected_libella << id
+      @collected_libella << @libellum_id
     end
   end
 
