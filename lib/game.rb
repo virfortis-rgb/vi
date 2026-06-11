@@ -160,12 +160,12 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-    spawn_libellum unless @collected_libella.include?(@libellum_id) # get id for libellum
+    spawn_libellum # unless @collected_libella.include?(@libellum_id) # get id for libellum
   end
 
   def spawn_libellum
     libellum = @data[:libellum]
-    if @hero.sacchus.size == @orbes.size && !@libellum && @state == :exploring # keep an eye, might cause issues
+    if @hero.sacchus.size == @orbes.size && @state == :exploring # keep an eye, might cause issues
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
