@@ -121,8 +121,8 @@ class Game
     @data = LevelData::LEVELS[@current_level]
     raise "Ave! You've conquered all of Rome!" if @data.nil?
     @camera&.clear_tiles
-    @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
-    @libellum&.remove_from_world # let's think about it
+    @orbes&.each(&:remove_from_world)
+    @libellum&.remove_from_world 
     @mundus = Mundus.new(@current_level)
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
     spawn_x = custom_spawn_x || 3
@@ -130,7 +130,7 @@ class Game
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
     @orbes = []
     spawn_orbes(@current_level)
-    @libellum = nil # same as above?
+    @libellum = nil
 
     if @unlocked_levels[level] == true
       @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
