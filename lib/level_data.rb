@@ -7,7 +7,7 @@ module LevelData
         { x: 3, y: 15, verbum: 'et' },
         { x: 23, y: 21, verbum: 'arma' },
       ],
-      libellum: {x: 29, y: 20, title: "Vergelii Aeneas", text: "Arma virumque canō"},
+      libellum: {x: 29, y: 20, title: "Vergelii Aeneas I", text: "Arma virumque canō"},
       portals: [
         {
         x: 0, y: 7,
@@ -21,9 +21,9 @@ module LevelData
         { x: 5, y: 3, verbum: 'cano' },
         { x: 12, y: 5, verbum: 'verum' },
         { x: 3, y: 15, verbum: 'et' },
-        { x: 23, y: 21, verbum: 'arma' },
+        { x: 23, y: 22, verbum: 'arma' },
       ],
-      libellum: {},
+      libellum: {x: 29, y: 20, title: "Vergelii Aeneas II", text: "Arma virumque canō"},
       portals: [
         {
         x: 63, y: 7,
