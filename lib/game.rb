@@ -8,11 +8,13 @@ class Game
     @ui = UI.new
     @unlocked_levels = {}
     @collected_orbes = []
+    @collected_libella = []
     load_mundum(@current_level)
     @menu_options = ["Start Game", "Exit Game"]
-    @menu_index = 1
+    @menu_index = 0
     @state = :menu
     @ui.show_menu(@menu_options, @menu_index)
+    @ui.update_menu_highlight(@menu_index)
     setup_inputs
   end
 
@@ -23,6 +25,7 @@ class Game
       # when :story then handle_story(event.key)
       when :exploring then handle_movement(event.key)
       when :dialogue then handle_dialogue_input(event.key)
+      when :notification then handle_notification(event.key)
       when :literature then  handle_literature_input(event.key)
       end
     end
@@ -34,7 +37,7 @@ class Game
       @menu_index = (@menu_index - 1) % @menu_options.size # 0
       @ui.update_menu_highlight(@menu_index)
     when 'down'
-      @menu_index = (@menu_index - 1) % @menu_options.size # 1
+      @menu_index = (@menu_index + 1) % @menu_options.size # 1
       @ui.update_menu_highlight(@menu_index)
     when 'space' 
       execute_menu
@@ -51,18 +54,17 @@ class Game
     end
   end
 
-  def handle_story(key)
-    case key
-    when 'space' 
-      "something"
-      # 
-    end
-  end
+  # def handle_story(key)
+  #   case key
+  #   when 'space' 
+  #     "something"
+  #     # 
+  #   end
+  # end
 
   def handle_movement(key)
     next_x = @hero.grid_x
     next_y = @hero.grid_y
-
     case key
     when 'left'
       next_x -= 1
@@ -76,6 +78,9 @@ class Game
     when 'right'
       next_x += 1
       @hero.sprite.play animation: :walk, loop: true, flip: :horizontal
+    when 'm' # after second time, doesn't work any more
+      @state = :menu
+      @ui.show_menu(@menu_options, @menu_index = 0)
     end
     print "Hero position: x = #{@hero.grid_x} | y = #{@hero.grid_y}" + "\r"
     $stdout.flush 
@@ -103,24 +108,28 @@ class Game
     end
   end
 
+  def handle_notification(key)
+    if key == 'space'
+      @ui.hide_notification
+      @state = :exploring
+    end
+  end
+
   def load_mundum(level, custom_spawn_x = nil, custom_spawn_y = nil)
     @current_level = level
     @data = LevelData::LEVELS[@current_level]
     raise "Ave! You've conquered all of Rome!" if @data.nil?
     @camera&.clear_tiles
-    @orbes&.each(&:remove_from_world) # Add cleanup safety to old items
-    @libellum&.remove_from_world
+    @orbes&.each(&:remove_from_world)
+    @libellum&.remove_from_world 
     @mundus = Mundus.new(@current_level)
-    puts 'New World Created!'
     @camera = Camera.new(@mundus.grid, @mundus.csv_path)
-    puts 'New Camera Created!'
     spawn_x = custom_spawn_x || 3
     spawn_y = custom_spawn_y || 3
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil
-    @state = :exploring
 
     if @unlocked_levels[level] == true
       @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
@@ -135,7 +144,6 @@ class Game
       next if @collected_orbes.include?(id)
       @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
     end
-    puts 'New Orbes Spawned!'
   end
 
   def check_orb_collisions
@@ -152,17 +160,22 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-    spawn_libellum
+    spawn_libellum unless @collected_libella.include?(@libellum_id) # get id for libellum
   end
 
   def spawn_libellum
     libellum = @data[:libellum]
-    if @hero.sacchus.size == @orbes.size && @libellum.nil?
+    if @hero.sacchus.size == @orbes.size && !@libellum && @state == :exploring # keep an eye, might cause issues
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]
         )
-      puts "A sacred scroll has appeared in the city!"
+      @libellum_id = "#{@current_level}_#{@libellum.title}"
+      unless @collected_libella.include?(@libellum_id)
+        @state = :notification
+        @ui.show_notification("A sacred scroll has appeared in the city!")
+      end
+      @collected_libella << @libellum_id
     end
   end
 
@@ -189,21 +202,18 @@ class Game
   def check_portals
     @data[:portals].each do |p| 
       if @hero.grid_x == p[:x] && @hero.grid_y == p[:y]
-      puts "Level up to level #{p[:target_level]}!"
       load_mundum(p[:target_level], p[:spawn_x], p[:spawn_y])
+        @state = :notification
+        @ui.show_notification("Level up to level #{@current_level}!")
       break
       end
     end
   end
 
   def refresh_camera
-    # 1. Tell mundus to shift its tiles around the hero, and get back the map's camera coordinates
     camera_offsets = @camera.update(@hero.grid_x, @hero.grid_y)
-    # 2. Tell the hero to draw himself relative to those camera coordinates
     @hero.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
-    @orbes.each do |orb|
-      orb.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
-    end
+    @orbes.each { |orb| orb.update_sprite_viewport(camera_offsets[0], camera_offsets[1]) }
     if @libellum
       @libellum.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
     end
