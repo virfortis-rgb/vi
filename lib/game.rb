@@ -130,8 +130,8 @@ class Game
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil
-
-    if @unlocked_levels[level] == true
+    @libellum_id = nil
+    if @unlocked_levels[@current_level] == true
       @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
     end
     @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
@@ -165,7 +165,7 @@ class Game
 
   def spawn_libellum
     libellum = @data[:libellum]
-    if @hero.sacchus.size == @orbes.size && !@libellum && @state == :exploring # keep an eye, might cause issues
+    if @hero.sacchus.size == @orbes.size && @state == :exploring # keep an eye, might cause issues
       @libellum = Libellum.new(
         libellum[:x], libellum[:y], @mundus.tile_size, 
         libellum[:title], libellum[:text]

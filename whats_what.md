@@ -14,7 +14,7 @@
 ## **** Map CSV file names should use the following format: mundus_{number of level}.csv****
 ## **** e.g. mundus_1.csv, mundus_200.csv ****
 
-## Lucius Thigs
+## Lucius Things
 ### Donkey:
 - idle (2)
 - walk (4)
@@ -39,7 +39,18 @@
   - logic: TODO
 
 ## 2. Story
-  - Intro to story
+  - Intro to story(
+  - state :story
+  - how many frames to tell the story ??
+  - each frame:
+   - (title)
+   - content i.e text preferably just one, but might need more)
+   - image (as in sprites for effects)
+   - prompt
 
 ## 3. Main Menu
   - How to save a game ???
+  - if you enter the menu more than once it stops respinding
+
+## 4. Levels
+  - level content
