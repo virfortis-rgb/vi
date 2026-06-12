@@ -9,6 +9,7 @@ class UI
     @menu_text_options = []
     @story_menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
     @story_menu = Text.new("space - play, s - skip", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
+    hide_story_menu
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
     @text_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @text = Text.new("", x: 280, y: 525, size: 28, color: 'yellow', z: 101)
