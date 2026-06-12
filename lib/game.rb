@@ -48,6 +48,7 @@ class Game
     case @menu_index
     when 0
       @ui.hide_menu
+      @ui.show_story_menu
       @state = :story
     when 1
       Ruby2D::Window.close
@@ -57,11 +58,14 @@ class Game
   def handle_story(key)
     case key
     when 'space' 
-      play_story
+      @ui.hide_story_menu
+      #play_storys
+      load_mundum(@current_level)
       @state = :exploring
-      load_mundum
     when 's'
-      load_mundum
+      @ui.hide_story_menu
+      load_mundum(@current_level)
+      @state = :exploring
     end
   end
 
