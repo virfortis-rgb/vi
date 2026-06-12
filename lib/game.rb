@@ -130,8 +130,8 @@ class Game
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil
-
-    if @unlocked_levels[level] == true
+    @libellum_id = nil
+    if @unlocked_levels[@current_level] == true
       @data[:portals].each { |p| @camera.via_nova(p[:x], p[:y]) }
     end
     @ui.sacchus_monstratur(@current_level, @hero.sacchus.size, @orbes.size)
@@ -160,7 +160,7 @@ class Game
         @ui.show_dialogue(orbs.verbum)
       end
     end
-    spawn_libellum # unless @collected_libella.include?(@libellum_id) # get id for libellum
+    spawn_libellum unless @collected_libella.include?(@libellum_id) # get id for libellum
   end
 
   def spawn_libellum

@@ -32,7 +32,7 @@ module LevelData
         },
         {
         x: 0, y: 7,
-        target_level: 2,
+        target_level: 3,
         spawn_x: 63, spawn_y: 7 
         }
       ]
@@ -53,12 +53,10 @@ module LevelData
         },
         {
         x: 0, y: 7,
-        target_level: 2,
+        target_level: 4,
         spawn_x: 50, spawn_y: 8 
         }
       ]
     }
   }
 end
-
-# TODO: add map info?? and refactor accordingly
