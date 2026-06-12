@@ -48,7 +48,7 @@ class Game
     case @menu_index
     when 0
       @ui.hide_menu
-      @state = :exploring # :story
+      @state = :story
     when 1
       Ruby2D::Window.close
     end
@@ -58,7 +58,7 @@ class Game
     case key
     when 'space' 
       play_story
-      @state :exploring
+      @state = :exploring
       load_mundum
     when 's'
       load_mundum
@@ -122,7 +122,7 @@ class Game
     # just a sequence of windows
     scenes = StoryScenes::SCENES
     scenes.each do |scene|
-      @ui.play_story(scene[title]) 
+      @ui.play_story(scene[:title], scene[:text]) 
     end
   end
 
