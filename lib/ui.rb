@@ -21,6 +21,19 @@ class UI
     hide_notification
   end
 
+  def play_story(title, text = [])
+    box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
+    title = Text.new()
+    content = text.map { |t| Text.new() }
+    box.add
+    title.add
+    content.each { |c| c.add }
+    sleep(5)
+    box.remove
+    title.remove
+    contenteach { |c| c.remove }
+  end
+
   def show_menu(options, index)
     options.each do |o|
       @menu_text_options << Text.new("#{index + 1}. #{o}", x: 280, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
