@@ -22,7 +22,7 @@ class Game
     Ruby2D::Window.on :key_down do |event|
       case @state
       when :menu then handle_menu(event.key)
-      # when :story then handle_story(event.key)
+      when :story then handle_story(event.key)
       when :exploring then handle_movement(event.key)
       when :dialogue then handle_dialogue_input(event.key)
       when :notification then handle_notification(event.key)
@@ -39,7 +39,7 @@ class Game
     when 'down'
       @menu_index = (@menu_index + 1) % @menu_options.size # 1
       @ui.update_menu_highlight(@menu_index)
-    when 'space' 
+    when "space" 
       execute_menu
     end
   end
@@ -48,19 +48,26 @@ class Game
     case @menu_index
     when 0
       @ui.hide_menu
-      @state = :exploring # :story
+      @ui.show_story_menu 
+      @state = :story
     when 1
       Ruby2D::Window.close
     end
   end
 
-  # def handle_story(key)
-  #   case key
-  #   when 'space' 
-  #     "something"
-  #     # 
-  #   end
-  # end
+  def handle_story(key)
+    case key
+    when 'space' 
+      @ui.hide_story_menu
+      # play_story
+      load_mundum(@current_level)
+      @state = :exploring
+    when 's'
+      @ui.hide_story_menu
+      load_mundum(@current_level)
+      @state = :exploring
+    end
+  end
 
   def handle_movement(key)
     next_x = @hero.grid_x
@@ -112,6 +119,14 @@ class Game
     if key == 'space'
       @ui.hide_notification
       @state = :exploring
+    end
+  end
+
+  def play_story
+    # just a sequence of windows
+    scenes = StoryScenes::SCENES
+    scenes.each do |scene|
+      @ui.play_story(scene[:title], scene[:text]) 
     end
   end
 
