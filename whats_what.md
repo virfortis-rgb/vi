@@ -38,7 +38,7 @@
   - walk arounf their orbs to protect it 
   - logic: TODO
 
-## 2. Story
+## 2. Intro Story + Main Story + End
   - Intro to story(
   - state :story
   - how many frames to tell the story ??
@@ -48,9 +48,24 @@
    - image (as in sprites for effects)
    - prompt
 
+   - end of levls chucks??
+
+   - what is the end of the story
+
 ## 3. Main Menu
   - How to save a game ???
   - if you enter the menu more than once it stops respinding
 
 ## 4. Levels
   - level content
+
+## 5. Sprites and Tiles
+ - redraw and update
+
+## 6. Audio
+  - duck
+  - found orb + all orbs
+  - found scroll
+  - new level
+  - background
+
