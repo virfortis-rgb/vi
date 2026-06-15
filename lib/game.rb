@@ -59,9 +59,11 @@ class Game
     case key
     when 'space' 
       @ui.hide_story_menu
-      # play_story
-      load_mundum(@current_level)
-      @state = :exploring
+      scenes = StoryScenes::SCENES
+      scenes.each do |scene| # DOES NOT WORK : TODO 
+        @state = :literature
+        @ui.libellum_monstratur(scene[:title], scene[:text])
+      end
     when 's'
       @ui.hide_story_menu
       load_mundum(@current_level)
@@ -119,14 +121,6 @@ class Game
     if key == 'space'
       @ui.hide_notification
       @state = :exploring
-    end
-  end
-
-  def play_story
-    # just a sequence of windows
-    scenes = StoryScenes::SCENES
-    scenes.each do |scene|
-      @ui.play_story(scene[:title], scene[:text]) 
     end
   end
 

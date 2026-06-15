@@ -39,18 +39,11 @@
   - logic: TODO
 
 ## 2. Story
-  - Intro to story(
-  - state :story
-  - how many frames to tell the story ??
-  - each frame:
-   - (title)
-   - content i.e text preferably just one, but might need more)
-   - image (as in sprites for effects)
-   - prompt
+  - intro should be more than one frame 
 
 ## 3. Main Menu
-  - How to save a game ???
-  - if you enter the menu more than once it stops respinding
+  - How to save a game ??? think csv reading and writing
+  - if you enter the menu more than once it stops responding
 
 ## 4. Levels
   - level content
