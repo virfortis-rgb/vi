@@ -59,12 +59,11 @@ class Game
     case key
     when 'space' 
       @ui.hide_story_menu
-      # play_story
-      scene = StoryScenes::SCENES[0]
-      @state = :literature
-      @ui.libellum_monstratur(scene[:title], scene[:text])
-      # load_mundum(@current_level)
-      # @state = :exploring
+      scenes = StoryScenes::SCENES
+      scenes.each do |scene| # DOES NOT WORK : TODO 
+        @state = :literature
+        @ui.libellum_monstratur(scene[:title], scene[:text])
+      end
     when 's'
       @ui.hide_story_menu
       load_mundum(@current_level)
@@ -125,12 +124,6 @@ class Game
       @state = :exploring
     end
   end
-
-  # def play_story
-  #   scene = StoryScenes::SCENES[0]
-  #   @state = :literature
-  #   @ui.libellum_monstratur(scene[:title], scene[:text])
-  # end
 
   def load_mundum(level, custom_spawn_x = nil, custom_spawn_y = nil)
     @current_level = level

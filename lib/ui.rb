@@ -8,7 +8,7 @@ class UI
     @menu_title = Text.new("Menu", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
     @menu_text_options = []
     @story_menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
-    @story_menu = Text.new("space - play, s - skip", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
+    @story_menu_options = []
     hide_story_menu
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
     @text_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
@@ -23,19 +23,6 @@ class UI
     @notification = Text.new("", x: 280, y: 525, size: 20, color: 'blue', z: 101)
     hide_notification
   end
-
-  # def play_story(title, text = [])
-  #   box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
-  #   title = Text.new(title, x: 280, y: 400, size: 28, color: 'white', z: 101)
-  #   content = text.map { |t| Text.new(t, x: 280, y: 400, size: 28, color: 'white', z: 101) }
-  #   box.add
-  #   title.add
-  #   content.each { |c| c.add }
-  #   sleep(5)
-  #   box.remove
-  #   title.remove
-  #   content.each { |c| c.remove }
-  # end
 
   def show_menu(options, index)
     options.each do |o|
@@ -61,13 +48,18 @@ class UI
   end
 
   def show_story_menu
+    index = 0
+    ["[Press 'SPACE' to continue]", "[Press 's' to skip]"].each do |o|
+      @story_menu_options << Text.new("#{o}", x: 280, y: 400 + (index * 50), size: 20, color: 'white', z: 101)
+      index += 1
+    end
     @story_menu_box.add
-    @story_menu.add
+    @story_menu_options.each { |o| o.add }
   end
 
   def hide_story_menu
     @story_menu_box.remove
-    @story_menu.remove
+    @story_menu_options.each { |o| o.remove }
   end
 
   def show_dialogue(verbum)
