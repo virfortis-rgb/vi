@@ -11,26 +11,8 @@
 - tree_one (1)          => 8
 - tree_two (1)          => 9
 
-## **** Map CSV file names should use the following format: mundus_{number of level}.csv****
+## **** Map CSV file names should use the following format: mundus_{number of level}.csv ****
 ## **** e.g. mundus_1.csv, mundus_200.csv ****
-
-## Lucius Things
-### Donkey:
-- idle (2)
-- walk (4)
-
-### Man:
-- idle (2)
-- walk (4)
-
-## Modal Things
-- Orbs board (1)
-- Libellum board (1)
-
-## UI Things
-- General pop-up (need sprite? Just dark bg?)
-- Intro boards
-- 
 
 # TODO
 ## 1. Orbs Protectors
@@ -40,10 +22,8 @@
 
 ## 2. Story
   - intro should be more than one frame 
-
-   - end of level chucks??
-
-   - what is the end of the story
+  - end of level story bits?
+  - what is the end of the story
 
 ## 3. Main Menu
   - How to save a game ??? think csv reading and writing
