@@ -11,15 +11,15 @@ class UI
     @story_menu_options = []
     hide_story_menu
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
-    @text_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
-    @text = Text.new("", x: 280, y: 525, size: 28, color: 'yellow', z: 101)
+    @text_box = Rectangle.new(y: 500, width: 1280, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
+    @text = Text.new("", x: 80, y: 525, size: 28, color: 'yellow', z: 101)
     @prompt = Text.new("[Press SPACE to continue]", x: 80, y: 575, size: 14, color: 'white', z: 101)
     hide_dialogue
     @libellum_box = Rectangle.new( width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @libellum_title = Text.new("", x: 80, y: 80, size: 48, color: 'yellow', z: 101)
     @libellum_text = []
     hide_libellum
-    @notification_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
+    @notification_box = Rectangle.new(y: 500, width: 1280, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @notification = Text.new("", x: 280, y: 525, size: 20, color: 'blue', z: 101)
     hide_notification
   end
