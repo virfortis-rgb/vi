@@ -5,7 +5,7 @@ class UI
   def initialize
     # refactor!
     @menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
-    @menu_title = Text.new("Menu", x: 80, y: 320, size: 48, color: 'yellow', z: 101)
+    @menu_title = Text.new("", x: 80, y: 240, size: 48, color: 'yellow', z: 101)
     @menu_text_options = []
     @story_menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
     @story_menu_options = []
@@ -13,7 +13,7 @@ class UI
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
     @text_box = Rectangle.new(y: 500, width: 1280, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @text = Text.new("", x: 80, y: 525, size: 28, color: 'yellow', z: 101)
-    @prompt = Text.new("[Press SPACE to continue]", x: 80, y: 575, size: 14, color: 'white', z: 101)
+    @prompt = Text.new("[Press SPACE to continue]", x: 80, y: 575, size: 12, color: 'white', z: 101)
     hide_dialogue
     @libellum_box = Rectangle.new( width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @libellum_title = Text.new("", x: 80, y: 80, size: 48, color: 'yellow', z: 101)
@@ -25,6 +25,7 @@ class UI
   end
 
   def show_menu(options, index)
+    @menu_title.text = "Menu"
     options.each do |o|
       @menu_text_options << Text.new("#{index + 1}. #{o}", x: 80, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
       index += 1
@@ -48,17 +49,19 @@ class UI
   end
 
   def show_story_menu
-    index = 0
-    ["[Press 'SPACE' to continue]", "[Press 's' to skip]"].each do |o|
-      @story_menu_options << Text.new("#{o}", x: 80, y: 400 + (index * 50), size: 20, color: 'white', z: 101)
-      index += 1
+    @menu_title.text = "The Story of Julius the Duck"
+    ["[Press 'SPACE' to continue]", "[Press 's' to skip]"].each_with_index do |o, index|
+      @story_menu_options << Text.new("#{o}", x: 80, y: 400 + (index * 50), size: 16, color: 'white', z: 101)
+    index += 1
     end
     @story_menu_box.add
+    @menu_title.add
     @story_menu_options.each { |o| o.add }
   end
 
   def hide_story_menu
     @story_menu_box.remove
+    @menu_title.remove
     @story_menu_options.each { |o| o.remove }
   end
 
