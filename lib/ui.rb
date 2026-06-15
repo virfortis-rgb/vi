@@ -5,7 +5,7 @@ class UI
   def initialize
     # refactor!
     @menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
-    @menu_title = Text.new("Menu", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
+    @menu_title = Text.new("Menu", x: 80, y: 320, size: 48, color: 'yellow', z: 101)
     @menu_text_options = []
     @story_menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
     @story_menu_options = []
@@ -13,11 +13,11 @@ class UI
     @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
     @text_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @text = Text.new("", x: 280, y: 525, size: 28, color: 'yellow', z: 101)
-    @prompt = Text.new("[Press SPACE to continue]", x: 280, y: 575, size: 14, color: 'white', z: 101)
+    @prompt = Text.new("[Press SPACE to continue]", x: 80, y: 575, size: 14, color: 'white', z: 101)
     hide_dialogue
     @libellum_box = Rectangle.new( width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.95], z: 100)
-    @libellum_title = Text.new("", x: 280, y: 320, size: 48, color: 'yellow', z: 101)
-    @libellum_text = Text.new("", x: 280, y: 400, size: 28, color: 'white', z: 101)
+    @libellum_title = Text.new("", x: 80, y: 80, size: 48, color: 'yellow', z: 101)
+    @libellum_text = []
     hide_libellum
     @notification_box = Rectangle.new(x: 240, y: 500, width: 800, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @notification = Text.new("", x: 280, y: 525, size: 20, color: 'blue', z: 101)
@@ -26,7 +26,7 @@ class UI
 
   def show_menu(options, index)
     options.each do |o|
-      @menu_text_options << Text.new("#{index + 1}. #{o}", x: 280, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
+      @menu_text_options << Text.new("#{index + 1}. #{o}", x: 80, y: 400 + (index * 50), size: 28, color: 'white', z: 101)
       index += 1
     end
     @menu_box.add
@@ -50,7 +50,7 @@ class UI
   def show_story_menu
     index = 0
     ["[Press 'SPACE' to continue]", "[Press 's' to skip]"].each do |o|
-      @story_menu_options << Text.new("#{o}", x: 280, y: 400 + (index * 50), size: 20, color: 'white', z: 101)
+      @story_menu_options << Text.new("#{o}", x: 80, y: 400 + (index * 50), size: 20, color: 'white', z: 101)
       index += 1
     end
     @story_menu_box.add
@@ -79,19 +79,22 @@ class UI
     @hud.text = "Level: #{level} || Orbes in saccho: #{sacchus}/#{orbes_size}"
   end
 
-  def libellum_monstratur(title, text)
+  def libellum_monstratur(title, text = [])
     @libellum_title.text = title
-    @libellum_text.text = text
+    @libellum_text = text.map.each_with_index do |t, i|
+      Text.new(t, x: 80, y: 160 + (i*50), size: 16, color: 'white', z: 101)
+    end
+
     @libellum_box.add
     @libellum_title.add
-    @libellum_text.add
+    @libellum_text.each { |t| t.add }
     @prompt.add
   end
 
   def hide_libellum
     @libellum_box.remove
     @libellum_title.remove
-    @libellum_text.remove
+    @libellum_text.each { |t| t.remove }
     @prompt.remove
   end
 
