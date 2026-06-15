@@ -38,23 +38,16 @@
   - walk arounf their orbs to protect it 
   - logic: TODO
 
-## 2. Intro Story + Main Story + End
-  - Intro to story(
-  - state :story
-  - how many frames to tell the story ??
-  - each frame:
-   - (title)
-   - content i.e text preferably just one, but might need more)
-   - image (as in sprites for effects)
-   - prompt
+## 2. Story
+  - intro should be more than one frame 
 
-   - end of levls chucks??
+   - end of level chucks??
 
    - what is the end of the story
 
 ## 3. Main Menu
-  - How to save a game ???
-  - if you enter the menu more than once it stops respinding
+  - How to save a game ??? think csv reading and writing
+  - if you enter the menu more than once it stops responding
 
 ## 4. Levels
   - level content
