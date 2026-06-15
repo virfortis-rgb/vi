@@ -113,7 +113,6 @@ class Game
   def handle_literature_input(key)
     if key == 'space'
       @ui.hide_libellum
-      puts "worked"
       @state = :exploring
     end
   end
