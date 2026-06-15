@@ -60,8 +60,11 @@ class Game
     when 'space' 
       @ui.hide_story_menu
       # play_story
-      load_mundum(@current_level)
-      @state = :exploring
+      scene = StoryScenes::SCENES[0]
+      @state = :literature
+      @ui.libellum_monstratur(scene[:title], scene[:text])
+      # load_mundum(@current_level)
+      # @state = :exploring
     when 's'
       @ui.hide_story_menu
       load_mundum(@current_level)
@@ -111,6 +114,7 @@ class Game
   def handle_literature_input(key)
     if key == 'space'
       @ui.hide_libellum
+      puts "worked"
       @state = :exploring
     end
   end
@@ -122,13 +126,11 @@ class Game
     end
   end
 
-  def play_story
-    # just a sequence of windows
-    scenes = StoryScenes::SCENES
-    scenes.each do |scene|
-      @ui.play_story(scene[:title], scene[:text]) 
-    end
-  end
+  # def play_story
+  #   scene = StoryScenes::SCENES[0]
+  #   @state = :literature
+  #   @ui.libellum_monstratur(scene[:title], scene[:text])
+  # end
 
   def load_mundum(level, custom_spawn_x = nil, custom_spawn_y = nil)
     @current_level = level

@@ -24,18 +24,18 @@ class UI
     hide_notification
   end
 
-  def play_story(title, text = [])
-    box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
-    title = Text.new(title, x: 280, y: 400, size: 28, color: 'white', z: 101)
-    content = text.map { |t| Text.new(t, x: 280, y: 400, size: 28, color: 'white', z: 101) }
-    box.add
-    title.add
-    content.each { |c| c.add }
-    sleep(5)
-    box.remove
-    title.remove
-    content.each { |c| c.remove }
-  end
+  # def play_story(title, text = [])
+  #   box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
+  #   title = Text.new(title, x: 280, y: 400, size: 28, color: 'white', z: 101)
+  #   content = text.map { |t| Text.new(t, x: 280, y: 400, size: 28, color: 'white', z: 101) }
+  #   box.add
+  #   title.add
+  #   content.each { |c| c.add }
+  #   sleep(5)
+  #   box.remove
+  #   title.remove
+  #   content.each { |c| c.remove }
+  # end
 
   def show_menu(options, index)
     options.each do |o|
