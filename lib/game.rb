@@ -136,6 +136,7 @@ class Game
     spawn_x = custom_spawn_x || 3
     spawn_y = custom_spawn_y || 3
     @hero = Hero.new(spawn_x, spawn_y, @mundus.tile_size)
+    # @ui.play_duck
     @orbes = []
     spawn_orbes(@current_level)
     @libellum = nil

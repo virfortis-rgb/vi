@@ -34,7 +34,7 @@
 
 # TODO
 ## 1. Orbs Protectors
-  - not enemies, bt entities that defend the orbs so that are slightly more difficult to get
+  - not enemies, but entities that defend the orbs so that are slightly more difficult to get
   - walk arounf their orbs to protect it 
   - logic: TODO
 
