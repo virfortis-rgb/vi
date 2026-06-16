@@ -1,9 +1,9 @@
 # Verborum Iter
 #### A simple open-world game built using Ruby 2D
 
-![Main Menu]("./assets/images/menu.png")
-![Main Menu]("./assets/images/intro.png")
-![Main Menu]("./assets/images/game_play.png")
+![Main Menu](./assets/images/menu.png)
+![Intro](./assets/images/intro.png)
+![Game](./assets/images/game_play.png)
 
 ## 1. Setup and Dependencies
 1. Ruby
