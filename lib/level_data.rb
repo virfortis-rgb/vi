@@ -20,8 +20,10 @@ module LevelData
         { x: 27, y: 23, verbum: 'dertien' },
         { x: 20, y: 12, verbum: 'veertien' },
         { x: 47, y: 15, verbum: 'vyftien' },
+        { x: 20, y: 12, verbum: 'sesien' },
+        { x: 47, y: 15, verbum: 'sewentien' }
       ],
-      libellum: {x: 29, y: 20, title: "Vergelii Aeneas I", text: "Arma virumque canō"},
+      libellum: {x: 29, y: 20, title: "Scroll I", text: "Arma virumque canō"},
       portals: [
         {
         x: 0, y: 7,
@@ -37,7 +39,7 @@ module LevelData
         { x: 3, y: 15, verbum: 'et' },
         { x: 23, y: 22, verbum: 'arma' },
       ],
-      libellum: {x: 29, y: 20, title: "Vergelii Aeneas II", text: "Arma virumque canō"},
+      libellum: {x: 29, y: 20, title: "Scroll II", text: "Arma virumque canō"},
       portals: [
         {
         x: 63, y: 7,
