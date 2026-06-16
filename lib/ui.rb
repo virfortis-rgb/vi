@@ -10,7 +10,8 @@ class UI
     @story_menu_box = Rectangle.new(width: 1280, height: 720, color: [0.1, 0.1, 0.1, 0.88], z: 100)
     @story_menu_options = []
     hide_story_menu
-    @hud = Text.new("", x: 20, y: 20, color: 'black', z: 10)
+    @hud_box = Rectangle.new(width: 408, height: 30, x: 16, y: 20, color: 'black', z: 100)
+    @hud = Text.new("", x: 20, y: 20, color: 'white', z: 101)
     @text_box = Rectangle.new(y: 500, width: 1280, height: 160, color: [0.1, 0.1, 0.1, 0.95], z: 100)
     @text = Text.new("", x: 80, y: 525, size: 28, color: 'yellow', z: 101)
     @prompt = Text.new("[Press SPACE to continue]", x: 80, y: 575, size: 12, color: 'white', z: 101)

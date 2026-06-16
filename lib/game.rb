@@ -151,7 +151,8 @@ class Game
     @data[:orbes].each do |o|
       id = "#{level}_#{o[:verbum]}"
       next if @collected_orbes.include?(id)
-      @orbes << Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
+      @orbes << orbs = Orbs.new(o[:x], o[:y], @mundus.tile_size, o[:verbum])
+      orbs.sprite.play animation: :bob, loop: true
     end
   end
 
@@ -180,6 +181,7 @@ class Game
         libellum[:title], libellum[:text]
         )
       @libellum_id = "#{@current_level}_#{@libellum.title}"
+      @libellum.sprite.play animation: :bob, loop: true
       unless @collected_libella.include?(@libellum_id)
         @state = :notification
         @ui.show_notification("A sacred scroll has appeared in the city!")
@@ -194,7 +196,7 @@ class Game
     if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
       @libellum.visum = true
       @state = :literature
-      @ui.libellum_monstratur(@libellum.title, @libellum.text)
+      @ui.libellum_monstratur(@libellum.title, [@libellum.text])
       @libellum.remove_from_world
       @libellum = nil
       portae_apertitur

@@ -15,8 +15,8 @@ class Mundus
   end
 
   def walkable?(x, y)
-    # walkable: 1, 2, 3    return false if y < 0 || y >= @grid.size
+    # walkable: 0, 1, 2    return false if y < 0 || y >= @grid.size
     return false if x < 0 || x >= @grid[0].size
-    @grid[y][x] == 1 || @grid[y][x] == 2 || @grid[y][x] == 3
+    @grid[y][x] == 0 || @grid[y][x] == 1 || @grid[y][x] == 2
   end
 end

@@ -9,7 +9,7 @@ set title: 'Verborum Iter',
     resizable: false,
     fullscreen: true,
     diagnostics: true,
-    background: 'white'
+    background: '#6f824f'
 
 Game.new
 
