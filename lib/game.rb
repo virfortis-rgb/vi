@@ -196,7 +196,7 @@ class Game
     if @hero.grid_x == @libellum.grid_x && @hero.grid_y == @libellum.grid_y
       @libellum.visum = true
       @state = :literature
-      @ui.libellum_monstratur(@libellum.title, @libellum.text)
+      @ui.libellum_monstratur(@libellum.title, [@libellum.text])
       @libellum.remove_from_world
       @libellum = nil
       portae_apertitur
