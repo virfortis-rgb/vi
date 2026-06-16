@@ -131,7 +131,7 @@ class Camera
   end
 
   def via_nova(x, y)
-    @grid[y][x] = 1 # change to walkable path
+    @grid[y][x] = 0 # change to walkable path
   end
 
   def clear_tiles
