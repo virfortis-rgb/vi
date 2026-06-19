@@ -10,7 +10,7 @@ class Game
     @collected_orbes = []
     @collected_libella = []
     load_mundum(@current_level)
-    @menu_options = ["Start Game", "Exit Game"]
+    @menu_options = ["Start/Continue Game", "Exit Game"]
     @menu_index = 0
     @state = :menu
     @ui.show_menu(@menu_options, @menu_index)
