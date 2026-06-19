@@ -41,3 +41,7 @@
   ```bash
   ruby main.rb
   ```
+## 4. Export to an executable
+  ```
+  Currently looking into this. Any suggestions are welcome 
+  ```

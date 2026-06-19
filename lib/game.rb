@@ -72,8 +72,7 @@ class Game
   end
 
   def handle_movement(key)
-    next_x = @hero.grid_x
-    next_y = @hero.grid_y
+    next_x, next_y = @hero.grid_x, @hero.grid_y
     case key
     when 'left'
       next_x -= 1
@@ -100,6 +99,11 @@ class Game
       check_libellum_collisions if @libellum
       check_portals      
       refresh_camera
+    end
+
+    if game_end
+      @ui.show_dialogue("Congratulations! You did it!")
+      @state = :menu
     end
   end
 
@@ -228,5 +232,12 @@ class Game
     if @libellum
       @libellum.update_sprite_viewport(camera_offsets[0], camera_offsets[1])
     end
+  end
+
+  def game_end
+    all_orbes = 0 
+    LevelData::LEVELS.each { |set| all_orbes += set.size }
+    conditions = @current_level == LevelData::LEVELS.size && @collected_orbes.size == all_orbes && @collected_libella == LevelData::LEVELS.size
+    return true if conditions
   end
 end

@@ -53,7 +53,7 @@ module LevelData
         }
       ]
     },
-        3 => {
+    3 => {
       orbes: [
         { x: 5, y: 3, verbum: 'cano' },
         { x: 12, y: 5, verbum: 'verum' },
