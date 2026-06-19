@@ -102,7 +102,7 @@ class Game
     end
 
     if game_end
-      @ui.show_dialogue("Congratulations! You did it!")
+      @ui.libellum_monstratur("Congratulations!", ["You did it!", "You're amazing!"])
       @state = :menu
     end
   end
